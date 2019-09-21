@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MDCTextField } from '@material/textfield';
 
 @Component({
   selector: 'esb-login',
@@ -10,6 +11,7 @@ export class LoginComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    const textField = new MDCTextField(document.querySelector('.mdc-text-field'));
   }
 
 }
