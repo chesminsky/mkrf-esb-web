@@ -11,19 +11,19 @@ export class AuthService {
     private http: HttpClient
   ) { }
 
-  login({ username, password }) {
+  public login({ username, password }) {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + btoa(`${username}:${password}`)
+      Authorization: 'Basic ' + btoa(`${username}:${password}`)
     });
     return this.http.get('/esb/adm/login', { headers })
-      .pipe(tap(token => {
-        console.log(token);
+      .pipe(tap((resp: any) => {
+        if (resp.token) {
+          localStorage.setItem('auth', resp.token);
+        }
       }));
   }
 
-  logout() {
-    // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
+  public logout() {
+    localStorage.removeItem('auth');
   }
 }

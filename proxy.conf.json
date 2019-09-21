@@ -1,9 +1,0 @@
-{
-    "/esb/*": {
-      "target": "https://esb.mkrf.ru",
-      "secure": false,
-      "logLevel": "debug",
-      "changeOrigin": true,
-      "pathRewrite": {"^/esb" : "https://esb.mkrf.ru/esb"}
-    }
-  }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../shared/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'esb-login',
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
 
   public ngOnInit() {
@@ -30,7 +32,13 @@ export class LoginComponent implements OnInit {
     }
 
     this.error = false;
-    this.authService.login(this.form.value).subscribe();
+    this.authService.login(this.form.value).subscribe(() => {
+      this.router.navigate(['']);
+    }, (err) => {
+      if (err.status === 403) {
+        this.error = true;
+      }
+    });
   }
 
 }

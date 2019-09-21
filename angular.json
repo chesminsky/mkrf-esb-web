@@ -73,7 +73,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "mkrf-esb-web:build"
+            "browserTarget": "mkrf-esb-web:build",
+            "proxyConfig": "proxy.conf.js"
           },
           "configurations": {
             "production": {
