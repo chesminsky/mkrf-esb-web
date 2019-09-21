@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, Input } from '@angular/core';
 import { MDCRipple } from '@material/ripple';
 
 @Component({
@@ -8,6 +8,8 @@ import { MDCRipple } from '@material/ripple';
 })
 export class ButtonComponent implements OnInit {
 
+  @Input()
+  public type = 'button';
 
   constructor(
     private el: ElementRef

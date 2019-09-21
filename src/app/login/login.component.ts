@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'esb-login',
@@ -6,10 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  public form: FormGroup;
 
-  constructor() { }
+  constructor(
+    private fb: FormBuilder
+  ) { }
 
-  ngOnInit() {
+  public ngOnInit() {
+    this.form = this.fb.group({
+      name: this.fb.control('init'),
+      password: this.fb.control('')
+    });
+  }
+
+  public onSubmit() {
+    console.log(this.form.value);
   }
 
 }

@@ -1,5 +1,5 @@
 <div class="mdc-text-field">
-    <input class="mdc-text-field__input">
+    <input class="mdc-text-field__input" [type]="type" [value]="inputValue" (input)="onInput($event)">
     <div class="mdc-line-ripple"></div>
     <label for="text-field-hero-input" class="mdc-floating-label">{{ placeholder }}</label>
 </div>
