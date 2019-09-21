@@ -6,6 +6,9 @@
     <form [formGroup]="form" (submit)="onSubmit()">
         <esb-text-field placeholder="Логин" formControlName="name"></esb-text-field>
         <esb-text-field placeholder="Пароль" formControlName="password" type="password"></esb-text-field>
+        <div class="error" *ngIf="error">
+            Неверное имя пользователя или пароль
+        </div>
         <esb-button class="login__button" type="submit">Войти</esb-button>
     </form>
 </div>

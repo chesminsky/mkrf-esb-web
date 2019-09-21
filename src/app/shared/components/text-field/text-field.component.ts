@@ -20,6 +20,8 @@ export class TextFieldComponent implements AfterViewInit, ControlValueAccessor {
   public placeholder: string;
   @Input()
   public type = 'text';
+  @Input()
+  public required = false;
 
   private value = '';
 

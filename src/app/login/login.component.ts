@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'esb-login',
@@ -8,6 +8,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
   public form: FormGroup;
+  public error = false;
 
   constructor(
     private fb: FormBuilder
@@ -15,13 +16,19 @@ export class LoginComponent implements OnInit {
 
   public ngOnInit() {
     this.form = this.fb.group({
-      name: this.fb.control('init'),
-      password: this.fb.control('')
+      name: this.fb.control('', Validators.required),
+      password: this.fb.control('', Validators.required)
     });
   }
 
   public onSubmit() {
     console.log(this.form.value);
+    if (this.form.invalid) {
+      this.error = true;
+      return;
+    }
+
+    this.error = false;
   }
 
 }

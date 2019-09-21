@@ -1,3 +1,5 @@
+@import "variables";
+
 .panel {
   width: 512px;
   height: 480px;
@@ -28,6 +30,7 @@
   
   &__button {
     float: right;
+    margin-top: 8px;
   }
 }
 
@@ -37,4 +40,9 @@
     background: url('../../assets/logo.svg');
     background-size: cover;
     margin: 0 auto 26px;
+}
+
+.error {
+  color: $error;
+  margin-bottom: 8px;
 }
