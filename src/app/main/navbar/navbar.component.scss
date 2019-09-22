@@ -1,0 +1,16 @@
+@import "variables";
+@import "@material/list/mdc-list";
+
+.navbar {
+  width: 305px;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  bottom: 0;
+  padding: 16px;
+}
+
+.mdc-list-item {
+    margin-bottom: 8px;
+    font-size: 14px;
+}
