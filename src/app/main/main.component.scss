@@ -1,0 +1,49 @@
+.header {
+  height: 64px;
+  border-bottom: 1px solid #e0e0e0;
+
+  &__search {
+    display: inline-block;
+    width: 400px;
+    position: relative;
+    vertical-align: top;
+    margin-top: 12px;
+    margin-left: 90px;
+    &-icon {
+      position: absolute;
+      top: 8px;
+      left: 17px;
+    }
+
+    input {
+      border: none;
+      line-height: 40px;
+      height: 40px;
+      background: transparent;
+      outline: none;
+      width: 100%;
+      color: #212121;
+      font-size: 16px;
+      padding: 0 24px 0 56px;
+      background-color: whitesmoke;
+      border-radius: 2px;
+      &::placeholder {
+        color: #666;
+      }
+      &:hover {
+        background: #ececec;
+      }
+      &:focus {
+        &::placeholder {
+          color: transparent;
+        }
+        background: #dcdcdc;
+      }
+    }
+  }
+}
+
+.logo {
+  margin: 7px 16px;
+  display: inline-block;
+}
