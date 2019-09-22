@@ -9,13 +9,15 @@ import { LoginComponent } from './login/login.component';
 import { SharedModule } from './shared/shared.module';
 import { MainComponent } from './main/main.component';
 import { NavbarComponent } from './main/navbar/navbar.component';
+import { HeaderComponent } from './main/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     MainComponent,
-    NavbarComponent
+    NavbarComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
