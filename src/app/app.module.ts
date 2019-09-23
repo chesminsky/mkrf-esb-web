@@ -12,6 +12,7 @@ import { NavbarComponent } from './main/navbar/navbar.component';
 import { HeaderComponent } from './main/header/header.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './shared/services/token.interceptor';
+import { NoderedComponent } from './nodered/nodered.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TokenInterceptor } from './shared/services/token.interceptor';
     LoginComponent,
     MainComponent,
     NavbarComponent,
-    HeaderComponent
+    HeaderComponent,
+    NoderedComponent
   ],
   imports: [
     BrowserModule,

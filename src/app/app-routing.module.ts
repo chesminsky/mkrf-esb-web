@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { AuthGuard } from './shared/services/auth.guard';
+import { NoderedComponent } from './nodered/nodered.component';
 
 const routes: Routes = [{
   path: 'login',
@@ -11,6 +12,12 @@ const routes: Routes = [{
   path: '',
   component: MainComponent,
   canActivate: [ AuthGuard ],
+  children: [
+    {
+      path: 'nodered',
+      component: NoderedComponent
+    }
+  ]
 }, {
   path: '**',
   redirectTo: ''
