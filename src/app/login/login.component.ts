@@ -10,13 +10,21 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
   public form: FormGroup;
-  public error = false;
+  public error: number;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router
   ) { }
+
+  public get errorMessage() {
+    const errors = {
+      403: 'Неверное имя пользователя или пароль'
+    };
+    const def = 'Что-то пошло не так...';
+    return errors[this.error] || def;
+  }
 
   public ngOnInit() {
     this.form = this.fb.group({
@@ -27,17 +35,15 @@ export class LoginComponent implements OnInit {
 
   public onSubmit() {
     if (this.form.invalid) {
-      this.error = true;
+      this.error = 403;
       return;
     }
 
-    this.error = false;
+    this.error = null;
     this.authService.login(this.form.value).subscribe(() => {
       this.router.navigate(['']);
     }, (err) => {
-      if (err.status === 403) {
-        this.error = true;
-      }
+      this.error = err.status;
     });
   }
 

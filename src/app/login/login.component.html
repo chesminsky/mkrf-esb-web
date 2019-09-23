@@ -7,7 +7,7 @@
         <esb-text-field placeholder="Логин" formControlName="username"></esb-text-field>
         <esb-text-field placeholder="Пароль" formControlName="password" type="password"></esb-text-field>
         <div class="error" *ngIf="error">
-            Неверное имя пользователя или пароль
+            {{ errorMessage }}
         </div>
         <esb-button class="login__button" type="submit">Войти</esb-button>
     </form>

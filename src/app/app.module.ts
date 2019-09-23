@@ -10,6 +10,8 @@ import { SharedModule } from './shared/shared.module';
 import { MainComponent } from './main/main.component';
 import { NavbarComponent } from './main/navbar/navbar.component';
 import { HeaderComponent } from './main/header/header.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './shared/services/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,13 @@ import { HeaderComponent } from './main/header/header.component';
     HttpClientModule,
     SharedModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
