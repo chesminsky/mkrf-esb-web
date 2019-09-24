@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, Input, forwardRef, AfterViewInit } from '@angular/core';
 import { MDCTextField } from '@material/textfield';
+import { MDCTextFieldIcon } from '@material/textfield/icon';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -24,6 +25,8 @@ export class TextFieldComponent implements AfterViewInit, ControlValueAccessor {
   public required = false;
   @Input()
   public disabled = false;
+  @Input()
+  public canShowPassword = false;
 
   private val = '';
 
@@ -45,6 +48,10 @@ export class TextFieldComponent implements AfterViewInit, ControlValueAccessor {
 
   ngAfterViewInit() {
     const field = new MDCTextField(this.el.nativeElement.querySelector('.mdc-text-field'));
+    const iconEl = this.el.nativeElement.querySelector('.mdc-text-field-icon');
+    if (iconEl) {
+      const icon = new MDCTextFieldIcon(iconEl);
+    }
   }
 
   writeValue(val) {

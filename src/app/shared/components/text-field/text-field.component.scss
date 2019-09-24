@@ -1,5 +1,6 @@
 @import "variables";
 @import "@material/textfield/mdc-text-field";
+@import "@material/textfield/icon/mdc-text-field-icon";
 
 :host {
     display: block;
@@ -8,4 +9,8 @@
 .mdc-text-field {
     width: 100%;
     margin-bottom: 24px;
+}
+
+.password-toggler {
+    pointer-events: initial !important;
 }
