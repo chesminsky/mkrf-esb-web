@@ -1,7 +1,10 @@
+@import "variables";
+
 body {
-    background: #fff;
+    background: white;
     font-family: Roboto;
     font-size: 14px;
+    color: $base-text-color;
 }
 
 * {

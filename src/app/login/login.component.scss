@@ -3,8 +3,8 @@
 .panel {
   width: 512px;
   height: 480px;
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.18);
+  background: white;
+  border: 1px solid $border-color;
   border-radius: 8px;
 }
 
@@ -23,7 +23,7 @@
 
   &__header {
     font-size: 18px;
-    color: #666;
+    color: $muted-color;
     text-align: center;
     margin-bottom: 30px;
   }
