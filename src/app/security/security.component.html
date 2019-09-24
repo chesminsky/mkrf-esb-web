@@ -2,4 +2,54 @@
     <header class="security__header">
         Учетные записи пользователей
     </header>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th width="40%">
+                    Login
+                </th>
+                <th width="60%">
+                    ФИО
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    petrov
+                </td>
+                <td>
+                    Петров Перт Петврвоич
+                </td>
+            </tr>
+            <tr class="is-expanded">
+                <td>
+                    petrov
+                </td>
+                <td>
+                    Петров Перт Петврвоич
+                </td>
+            </tr>
+            <tr class="table-details">
+                <td colspan="2">
+                    <div class="clearfix">
+                        <div class="table-details__col">
+                            <esb-text-field placeholder="Login" value="ivanov" [disabled]="true"></esb-text-field>
+                        </div>
+                        <div class="table-details__col">
+                            <esb-text-field placeholder="ФИО"></esb-text-field>
+                        </div>
+                        <div class="table-details__col">
+                            <esb-text-field placeholder="e-mail"></esb-text-field>
+                        </div>
+                        <div class="table-details__col">
+                            <esb-text-field placeholder="Пароль"></esb-text-field>
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

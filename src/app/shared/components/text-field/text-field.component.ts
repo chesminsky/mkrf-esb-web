@@ -22,8 +22,10 @@ export class TextFieldComponent implements AfterViewInit, ControlValueAccessor {
   public type = 'text';
   @Input()
   public required = false;
+  @Input()
+  public disabled = false;
 
-  private value = '';
+  private val = '';
 
   private propagateChange: any = () => {};
 
@@ -31,12 +33,13 @@ export class TextFieldComponent implements AfterViewInit, ControlValueAccessor {
     private el: ElementRef
   ) { }
 
-  get inputValue() {
-    return this.value;
+  get value() {
+    return this.val;
   }
 
-  set inputValue(val) {
-    this.value = val;
+  @Input()
+  set value(val) {
+    this.val = val;
     this.propagateChange(val);
   }
 
@@ -44,9 +47,9 @@ export class TextFieldComponent implements AfterViewInit, ControlValueAccessor {
     const field = new MDCTextField(this.el.nativeElement.querySelector('.mdc-text-field'));
   }
 
-  writeValue(value) {
-    if (value) {
-      this.inputValue = value;
+  writeValue(val) {
+    if (val) {
+      this.val = val;
     }
   }
 
@@ -57,7 +60,7 @@ export class TextFieldComponent implements AfterViewInit, ControlValueAccessor {
   registerOnTouched() {}
 
   onInput(e) {
-    this.inputValue = e.target.value;
+    this.value = e.target.value;
   }
 
 }

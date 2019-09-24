@@ -1,9 +1,12 @@
-<div class="mdc-text-field">
+<div class="mdc-text-field" [ngClass]="{ 'mdc-text-field--no-label': !placeholder }">
     <input  class="mdc-text-field__input"
             [type]="type"
-            [value]="inputValue"
+            [value]="value"
             (input)="onInput($event)"
-            [required]="required">
+            [required]="required"
+            [disabled]="disabled">
     <div class="mdc-line-ripple"></div>
-    <label for="text-field-hero-input" class="mdc-floating-label">{{ placeholder }}</label>
+    <label for="text-field-hero-input" class="mdc-floating-label" [ngClass]="{ 'mdc-floating-label--float-above': disabled }">
+        {{ placeholder }}
+    </label>
 </div>
