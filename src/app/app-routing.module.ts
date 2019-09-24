@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { AuthGuard } from './shared/services/auth.guard';
 import { NoderedComponent } from './nodered/nodered.component';
+import { SecurityComponent } from './security/security.component';
 
 const routes: Routes = [{
   path: 'login',
@@ -13,6 +14,10 @@ const routes: Routes = [{
   component: MainComponent,
   canActivate: [ AuthGuard ],
   children: [
+    {
+      path: 'security',
+      component: SecurityComponent
+    },
     {
       path: 'nodered',
       component: NoderedComponent
