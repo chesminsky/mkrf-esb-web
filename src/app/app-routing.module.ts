@@ -15,6 +15,11 @@ const routes: Routes = [{
   canActivate: [ AuthGuard ],
   children: [
     {
+      path: '',
+      redirectTo: 'security',
+      pathMatch: 'full',
+    },
+    {
       path: 'security',
       component: SecurityComponent
     },
