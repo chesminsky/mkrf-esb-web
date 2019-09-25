@@ -20,6 +20,8 @@
     "@angular/platform-browser-dynamic": "~8.2.7",
     "@angular/router": "~8.2.7",
     "@material/button": "^3.2.0",
+    "@material/checkbox": "^3.2.0",
+    "@material/form-field": "^3.2.0",
     "@material/list": "^3.2.0",
     "@material/ripple": "^3.2.0",
     "@material/textfield": "^3.2.0",

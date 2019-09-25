@@ -9,11 +9,11 @@ import { UsersService } from '../shared/services/users.service';
 export class MainComponent implements OnInit {
 
   constructor(
-    private usersService: UsersService
+
   ) { }
 
   ngOnInit() {
-    this.usersService.getUsers().subscribe(console.log);
+
   }
 
 }

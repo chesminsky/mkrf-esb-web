@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextFieldComponent } from './components/text-field/text-field.component';
 import { ButtonComponent } from './components/button/button.component';
+import { CheckboxComponent } from './components/checkbox/checkbox.component';
 
 
 @NgModule({
   declarations: [
     TextFieldComponent,
-    ButtonComponent
+    ButtonComponent,
+    CheckboxComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +19,8 @@ import { ButtonComponent } from './components/button/button.component';
   ],
   exports: [
     TextFieldComponent,
-    ButtonComponent
+    ButtonComponent,
+    CheckboxComponent
   ]
 })
 export class SharedModule { }

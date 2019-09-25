@@ -1,0 +1,17 @@
+@import "variables";
+@import "@material/form-field/mdc-form-field";
+@import "@material/checkbox/mdc-checkbox";
+
+$unmarked-stroke-color: #757575;
+$unmarked-fill-color: transparent;
+$marked-stroke-color: $mdc-theme-primary;
+$marked-fill-color: transparent;
+
+:host {
+    @include mdc-checkbox-container-colors($unmarked-stroke-color, $unmarked-fill-color, $marked-stroke-color, $marked-fill-color, true);
+    @include mdc-checkbox-ink-color($mdc-theme-primary);
+
+    label {
+        cursor: pointer;
+    }
+}
