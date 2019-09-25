@@ -1,4 +1,5 @@
 @import "variables";
+@import "helper";
 
 .security {
     padding: 35px 32px;
@@ -45,5 +46,47 @@
         &:nth-child(even) {
             padding-left: 8px;
         }
+    }
+
+    &__form {
+        margin-bottom: 12px;
+    }
+}
+
+.checks {
+
+    &__header {
+        font-size: 16px;
+        margin-bottom: 30px;
+    }
+
+    &__item {
+        padding: 4px 0;
+        border-bottom: 1px solid $border-color;
+        position: relative;
+    }
+
+    &__item--parent {
+        padding-left: 26px;
+        &::before {
+            @include triangle(bottom, 5px, 5px, $muted-color);
+            left: 0;
+            top: 22px;
+            position: absolute;
+        }
+        border: none;
+
+        .checks__list {
+            padding-left: 48px;
+        }
+    }
+
+    &__buttons {
+        text-align: right;
+        margin: 20px 0;
+    }
+
+    &__button {
+        margin-left: 16px;
     }
 }

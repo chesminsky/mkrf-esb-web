@@ -10,13 +10,14 @@ export class ButtonComponent implements OnInit {
 
   @Input()
   public type = 'button';
+  @Input()
+  public styleType;
 
   constructor(
     private el: ElementRef
   ) { }
 
   ngOnInit() {
-
     const ripple = new MDCRipple(this.el.nativeElement.querySelector('.mdc-button'));
   }
 

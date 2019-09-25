@@ -14,4 +14,8 @@ $marked-fill-color: transparent;
     label {
         cursor: pointer;
     }
+
+    .mdc-form-field__label {
+        padding-left: 8px;
+    }
 }

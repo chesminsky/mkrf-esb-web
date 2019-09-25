@@ -33,7 +33,7 @@
             </tr>
             <tr class="table-details">
                 <td colspan="2">
-                    <div class="clearfix">
+                    <div class="clearfix table-details__form">
                         <div class="table-details__col">
                             <esb-text-field placeholder="Login" value="ivanov" [disabled]="true"></esb-text-field>
                         </div>
@@ -53,13 +53,40 @@
                             Методы
                         </header>
 
-                        <form [formGroup]="form">
-                            <ul class="checks__list">
-                                <li class="checks__item">
-                                    <esb-checkbox label="esb.kinobilet"></esb-checkbox>
-                                </li>
-                            </ul>
-                        </form>
+                        <ul class="checks__list">
+                            <li class="checks__item checks__item--parent">
+                                <esb-checkbox label="esb.kinobilet"></esb-checkbox>
+
+                                <ul class="checks__list">
+                                    <li class="checks__item">
+                                        <esb-checkbox label="get_tickets"></esb-checkbox>
+                                    </li>
+                                    <li class="checks__item">
+                                        <esb-checkbox label="get_statistics"></esb-checkbox>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="checks__item checks__item--parent">
+                                <esb-checkbox label="Администрирование"></esb-checkbox>
+
+                                <ul class="checks__list">
+                                    <li class="checks__item">
+                                        <esb-checkbox label="Nodered"></esb-checkbox>
+                                    </li>
+                                    <li class="checks__item">
+                                        <esb-checkbox label="Список пользователей"></esb-checkbox>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <div class="checks__buttons">
+                            <esb-button class="checks__button" type="button">
+                                Отменить
+                            </esb-button>
+                            <esb-button class="checks__button" type="submit" styleType="raised">
+                                Сохранить
+                            </esb-button>
+                        </div>
                     </div>
                 </td>
             </tr>
