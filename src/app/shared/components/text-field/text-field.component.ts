@@ -42,7 +42,7 @@ export class TextFieldComponent implements AfterViewInit, ControlValueAccessor {
 
   @Input()
   set value(val) {
-    this.val = val;
+    this.val = val || '';
     this.propagateChange(val);
   }
 

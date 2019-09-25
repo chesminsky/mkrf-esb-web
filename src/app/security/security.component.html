@@ -14,37 +14,30 @@
                 </th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
+        <tbody *ngFor="let user of users">
+            <tr [ngClass]="{ 'is-expanded': user.expanded }" (click)="user.expanded = !user.expanded">
                 <td>
-                    petrov
+                    {{ user.cn }} 
                 </td>
                 <td>
-                    Петров Перт Петврвоич
-                </td>
-            </tr>
-            <tr class="is-expanded">
-                <td>
-                    petrov
-                </td>
-                <td>
-                    Петров Перт Петврвоич
+                    {{ user.cn }} {{ user.sn }}
                 </td>
             </tr>
-            <tr class="table-details">
+            <tr class="table-details" *ngIf="user.expanded">
                 <td colspan="2">
                     <div class="clearfix table-details__form">
                         <div class="table-details__col">
-                            <esb-text-field placeholder="Login" value="ivanov" [disabled]="true"></esb-text-field>
+                            <esb-text-field placeholder="Login" [value]="user.cn" [disabled]="true"></esb-text-field>
                         </div>
                         <div class="table-details__col">
-                            <esb-text-field placeholder="ФИО"></esb-text-field>
+                            <esb-text-field placeholder="ФИО" [value]="user.sn"></esb-text-field>
                         </div>
                         <div class="table-details__col">
-                            <esb-text-field placeholder="e-mail"></esb-text-field>
+                            <esb-text-field placeholder="e-mail" [value]="user.email"></esb-text-field>
                         </div>
                         <div class="table-details__col">
-                            <esb-text-field placeholder="Пароль" type="password" [canShowPassword]="true"></esb-text-field>
+                            <esb-text-field placeholder="Пароль" type="password" [canShowPassword]="true">
+                            </esb-text-field>
                         </div>
                     </div>
 

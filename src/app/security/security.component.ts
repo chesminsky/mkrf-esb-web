@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { UsersService } from '../shared/services/users.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { User } from '../shared/models/user';
+
+interface UserRow extends User {
+  exoanded?: boolean;
+}
 
 @Component({
   selector: 'esb-security',
@@ -9,6 +14,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class SecurityComponent implements OnInit {
 
+  public users: Array<UserRow>;
   private form: FormGroup;
 
   constructor(
@@ -21,7 +27,7 @@ export class SecurityComponent implements OnInit {
 
     });
 
-    this.usersService.getUsers().subscribe(console.log);
+    this.usersService.getUsers().subscribe((users) => this.users = users);
   }
 
 }

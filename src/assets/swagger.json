@@ -1,0 +1,552 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "3.0-SNAPSHOT-local",
+    "title" : "ESB Portal"
+  },
+  "host" : "esb.mkrf.ru",
+  "basePath" : "/esb",
+  "tags" : [ {
+    "name" : "login",
+    "description" : "Сервлет логина"
+  }, {
+    "name" : "users",
+    "description" : "Информация о пользователях"
+  } ],
+  "schemes" : [ "http", "https" ],
+  "paths" : {
+    "/adm/login" : {
+      "get" : {
+        "tags" : [ "login" ],
+        "summary" : "Авторизация в портале",
+        "description" : "",
+        "operationId" : "onCall",
+        "produces" : [ "application/json;charset=utf-8" ],
+        "responses" : {
+          "200" : {
+            "description" : "Операция выполнена успешно",
+            "schema" : {
+              "$ref" : "#/definitions/LoginResponse"
+            }
+          },
+          "401" : {
+            "description" : "В запросе отсутствуют данные для авторизации или они неверны",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "403" : {
+            "description" : "Нет прав на выполнение данной операции",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "500" : {
+            "description" : "Внутренняя ошибка сервера",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "login" ],
+        "summary" : "Авторизация в портале",
+        "description" : "",
+        "operationId" : "login",
+        "produces" : [ "application/json;charset=utf-8" ],
+        "responses" : {
+          "200" : {
+            "description" : "Операция выполнена успешно",
+            "schema" : {
+              "$ref" : "#/definitions/LoginResponse"
+            }
+          },
+          "401" : {
+            "description" : "В запросе отсутствуют данные для авторизации или они неверны",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "403" : {
+            "description" : "Нет прав на выполнение данной операции",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "500" : {
+            "description" : "Внутренняя ошибка сервера",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        } ]
+      }
+    },
+    "/adm/users" : {
+      "get" : {
+        "tags" : [ "users" ],
+        "summary" : "Получение списка пользователей",
+        "description" : "",
+        "operationId" : "getAllUsers",
+        "produces" : [ "application/json;charset=utf-8" ],
+        "responses" : {
+          "200" : {
+            "description" : "Операция выполнена успешно",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/User"
+              }
+            }
+          },
+          "401" : {
+            "description" : "В запросе отсутствуют данные для авторизации или они неверны",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "403" : {
+            "description" : "Нет прав на выполнение данной операции",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "500" : {
+            "description" : "Внутренняя ошибка сервера",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        }, {
+          "Authorization" : [ ]
+        } ]
+      },
+      "post" : {
+        "tags" : [ "users" ],
+        "summary" : "Создание пользователя",
+        "description" : "",
+        "operationId" : "createUser",
+        "produces" : [ "application/json;charset=utf-8" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "Информация о создаваемом пользователе",
+          "required" : false,
+          "schema" : {
+            "$ref" : "#/definitions/CreatableUser"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Операция выполнена успешно",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "400" : {
+            "description" : "Неверные параметры запроса",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "401" : {
+            "description" : "В запросе отсутствуют данные для авторизации или они неверны",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "403" : {
+            "description" : "Нет прав на выполнение данной операции",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "409" : {
+            "description" : "Пользователь уже существует",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "500" : {
+            "description" : "Внутренняя ошибка сервера",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        }, {
+          "Authorization" : [ ]
+        } ]
+      }
+    },
+    "/adm/users/{cn}" : {
+      "delete" : {
+        "tags" : [ "users" ],
+        "summary" : "Удаление пользователя",
+        "description" : "",
+        "operationId" : "deleteUser",
+        "produces" : [ "application/json;charset=utf-8" ],
+        "parameters" : [ {
+          "name" : "cn",
+          "in" : "path",
+          "description" : "Логин пользователя",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "user-123"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Операция выполнена успешно"
+          },
+          "400" : {
+            "description" : "Неверные параметры запроса",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "401" : {
+            "description" : "В запросе отсутствуют данные для авторизации или они неверны",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "403" : {
+            "description" : "Нет прав на выполнение данной операции",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "500" : {
+            "description" : "Внутренняя ошибка сервера",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        }, {
+          "Authorization" : [ ]
+        } ]
+      }
+    },
+    "/adm/users/{cn}/actions/change-user-password" : {
+      "post" : {
+        "tags" : [ "users" ],
+        "summary" : "Изменение пароля пользователя",
+        "description" : "",
+        "operationId" : "changeUserPassword",
+        "produces" : [ "application/json;charset=utf-8" ],
+        "parameters" : [ {
+          "name" : "cn",
+          "in" : "path",
+          "description" : "Логин пользователя",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "user-123"
+        }, {
+          "name" : "newPassword",
+          "in" : "query",
+          "description" : "Новый пароль пользователя",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "456"
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Операция выполнена успешно"
+          },
+          "400" : {
+            "description" : "Неверные параметры запроса",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "401" : {
+            "description" : "В запросе отсутствуют данные для авторизации или они неверны",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "403" : {
+            "description" : "Нет прав на выполнение данной операции",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "404" : {
+            "description" : "Пользователь не найден",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "500" : {
+            "description" : "Внутренняя ошибка сервера",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        }, {
+          "Authorization" : [ ]
+        } ]
+      }
+    },
+    "/adm/users/{cn}/actions/get-user-access-rights" : {
+      "post" : {
+        "tags" : [ "users" ],
+        "summary" : "Получение информации о правах доступа пользователя",
+        "description" : "",
+        "operationId" : "getUserAccessRights",
+        "produces" : [ "application/json;charset=utf-8" ],
+        "parameters" : [ {
+          "name" : "cn",
+          "in" : "path",
+          "description" : "Логин пользователя",
+          "required" : true,
+          "type" : "string",
+          "x-example" : "user-123"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Операция выполнена успешно",
+            "schema" : {
+              "$ref" : "#/definitions/UserAccessRights"
+            }
+          },
+          "400" : {
+            "description" : "Неверные параметры запроса",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "401" : {
+            "description" : "В запросе отсутствуют данные для авторизации или они неверны",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "403" : {
+            "description" : "Нет прав на выполнение данной операции",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "404" : {
+            "description" : "Пользователь не найден",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          },
+          "500" : {
+            "description" : "Внутренняя ошибка сервера",
+            "schema" : {
+              "$ref" : "#/definitions/ExceptionMessage"
+            }
+          }
+        },
+        "security" : [ {
+          "basicAuth" : [ ]
+        }, {
+          "Authorization" : [ ]
+        } ]
+      }
+    }
+  },
+  "securityDefinitions" : {
+    "Authorization" : {
+      "type" : "apiKey",
+      "name" : "Authorization",
+      "in" : "header"
+    },
+    "basicAuth" : {
+      "type" : "basic"
+    }
+  },
+  "definitions" : {
+    "CreatableUser" : {
+      "type" : "object",
+      "properties" : {
+        "cn" : {
+          "type" : "string",
+          "description" : "Имя"
+        },
+        "sn" : {
+          "type" : "string",
+          "description" : "Фамилия"
+        },
+        "email" : {
+          "type" : "string",
+          "description" : "Почта"
+        },
+        "additionalProperties" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        },
+        "password" : {
+          "type" : "string",
+          "description" : "Пароль"
+        }
+      }
+    },
+    "ExceptionMessage" : {
+      "type" : "object",
+      "properties" : {
+        "status" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        }
+      }
+    },
+    "LoginResponse" : {
+      "type" : "object",
+      "properties" : {
+        "token" : {
+          "type" : "string",
+          "description" : "JWT токен для доступа к API"
+        },
+        "accessRights" : {
+          "description" : "Информация о доступах данного пользователя к модулям портала",
+          "$ref" : "#/definitions/UserModuleAccessRights"
+        }
+      }
+    },
+    "User" : {
+      "type" : "object",
+      "properties" : {
+        "cn" : {
+          "type" : "string",
+          "description" : "Имя"
+        },
+        "sn" : {
+          "type" : "string",
+          "description" : "Фамилия"
+        },
+        "email" : {
+          "type" : "string",
+          "description" : "Почта"
+        },
+        "additionalProperties" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        }
+      }
+    },
+    "UserAccessRights" : {
+      "type" : "object",
+      "properties" : {
+        "systemAccessRights" : {
+          "type" : "array",
+          "description" : "Список прав доступа для систем",
+          "items" : {
+            "$ref" : "#/definitions/UserSystemAccessRights"
+          }
+        },
+        "moduleAccessRights" : {
+          "type" : "array",
+          "description" : "Список прав доступа для модулей",
+          "items" : {
+            "$ref" : "#/definitions/UserModuleAccessRights"
+          }
+        },
+        "additionalProperties" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        }
+      }
+    },
+    "UserModuleAccessRights" : {
+      "type" : "object",
+      "properties" : {
+        "moduleName" : {
+          "type" : "string",
+          "description" : "Имя модуля"
+        },
+        "hasAccess" : {
+          "type" : "boolean",
+          "description" : "Наличие доступа к модулю"
+        },
+        "serviceAccessRights" : {
+          "type" : "array",
+          "description" : "Список сервисов модуля",
+          "items" : {
+            "$ref" : "#/definitions/UserServiceAccessRights"
+          }
+        },
+        "additionalProperties" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        }
+      }
+    },
+    "UserServiceAccessRights" : {
+      "type" : "object",
+      "properties" : {
+        "serviceName" : {
+          "type" : "string",
+          "description" : "Имя сервиса"
+        },
+        "hasAccess" : {
+          "type" : "boolean",
+          "description" : "Наличие доступа к сервису"
+        },
+        "additionalProperties" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        }
+      }
+    },
+    "UserSystemAccessRights" : {
+      "type" : "object",
+      "properties" : {
+        "systemName" : {
+          "type" : "string",
+          "description" : "Имя системы"
+        },
+        "hasAccess" : {
+          "type" : "boolean",
+          "description" : "Наличие доступа к системе"
+        },
+        "serviceAccessRights" : {
+          "type" : "array",
+          "description" : "Список сервисов системы",
+          "items" : {
+            "$ref" : "#/definitions/UserServiceAccessRights"
+          }
+        },
+        "additionalProperties" : {
+          "type" : "object",
+          "additionalProperties" : {
+            "type" : "object"
+          }
+        }
+      }
+    }
+  }
+}
