@@ -14,13 +14,16 @@
         </div>
         <div class="table__content">
             <div class="table__body" *ngFor="let user of users">
-                <div class="table__row" [ngClass]="{ 'is-expanded': user.expanded }"
-                    (click)="user.expanded = !user.expanded">
+                <div class="table__row" [ngClass]="{ 'is-expanded': user.expanded }">
                     <div class="table__cell">
                         {{ user.cn }}
                     </div>
                     <div class="table__cell">
                         {{ user.sn }}
+                    </div>
+                    <div class="table__row-controls">
+                        <i class="material-icons-outlined" (click)="user.expanded = !user.expanded">edit</i>
+                        <i class="material-icons-outlined">delete</i>
                     </div>
                 </div>
                 <div class="table-details" *ngIf="user.expanded">

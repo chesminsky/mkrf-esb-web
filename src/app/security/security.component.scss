@@ -69,10 +69,23 @@
 		table-layout: fixed;
 		width: 100%;
 		border-bottom: 1px solid $border-color;
-		cursor: pointer;
+		position: relative;
 		&.is-expanded {
 			font-weight: 700;
 			border-bottom: none;
+		}
+		&-controls {
+			position: absolute;
+			top: 14px;
+			right: 8px;
+			cursor: pointer;
+			width: auto;
+			white-space: nowrap;
+			color: $muted-color;
+			text-align: right;
+			i {
+				margin-left: 24px;
+			}
 		}
 	}
 }
