@@ -58,6 +58,12 @@ export class SecurityComponent implements OnInit {
     });
   }
 
+  public expand(i) {
+    this.users[i].expanded = true;
+    const login = this.usersCtrl.controls[i].get('cn').value;
+    this.usersService.getAccessRights(login).subscribe(console.log);
+  }
+
   private createUserGroup(user: User): FormGroup {
     return this.fb.group({
       cn: this.fb.control({ value: user.cn, disabled: true}),

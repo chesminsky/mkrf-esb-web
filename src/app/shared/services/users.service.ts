@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { User } from '../models/user';
 import { Observable } from 'rxjs';
+import { UserAccessRights } from '../models/user-access-rights';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,9 @@ export class UsersService {
 
   public changePassword(login: string, newPassword: string) {
     return this.http.post(this.apiUrl + '/esb/adm/users/' + login + '/actions/change-user-password?newPassword=' + newPassword, {});
+  }
+
+  public getAccessRights(login: string): Observable<UserAccessRights> {
+    return this.http.post<UserAccessRights>(this.apiUrl + '/esb/adm/users/' + login + '/actions/get-user-access-rights', {});
   }
 }

@@ -22,7 +22,7 @@
                         {{ user.get('sn').value }}
                     </div>
                     <div class="table__row-controls">
-                        <i class="material-icons-outlined" (click)="users[i].expanded  = true">edit</i>
+                        <i class="material-icons-outlined" (click)="expand(i)">edit</i>
                         <i class="material-icons-outlined" (click)="deleteUser(i)">delete</i>
                     </div>
                 </div>
