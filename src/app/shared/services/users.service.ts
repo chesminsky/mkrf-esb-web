@@ -18,4 +18,8 @@ export class UsersService {
   getUsers(): Observable<Array<User>> {
       return this.http.get<Array<User>>(this.apiUrl + '/esb/adm/users');
   }
+
+  deleteUser(login: string) {
+    return this.http.delete(this.apiUrl + '/esb/adm/users/' + login);
+  }
 }

@@ -4,13 +4,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TextFieldComponent } from './components/text-field/text-field.component';
 import { ButtonComponent } from './components/button/button.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
 
 
 @NgModule({
   declarations: [
     TextFieldComponent,
     ButtonComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    SnackbarComponent
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,11 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
   exports: [
     TextFieldComponent,
     ButtonComponent,
-    CheckboxComponent
+    CheckboxComponent,
+    SnackbarComponent
+  ],
+  entryComponents: [
+
   ]
 })
 export class SharedModule { }
