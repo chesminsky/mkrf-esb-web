@@ -1,4 +1,4 @@
-<div class="main security">
+<form class="main security" [formGroup]="form">
     <header class="security__header">
         Учетные записи пользователей
     </header>
@@ -12,35 +12,34 @@
                 ФИО
             </div>
         </div>
-        <div class="table__content">
-            <div class="table__body" *ngFor="let user of users; index as i">
-                <div class="table__row" [ngClass]="{ 'is-expanded': user.expanded }">
+        <div class="table__content" formArrayName="users">
+            <form class="table__body" *ngFor="let user of usersCtrl.controls; index as i " [formGroupName]="i" (submit)="onSubmit(i)">
+                <div class="table__row" [ngClass]="{ 'is-expanded': users[i].expanded  }">
                     <div class="table__cell">
-                        {{ user.cn }}
+                        {{ user.get('cn').value }}
                     </div>
                     <div class="table__cell">
-                        {{ user.sn }}
+                        {{ user.get('sn').value }}
                     </div>
                     <div class="table__row-controls">
-                        <i class="material-icons-outlined" (click)="user.expanded = !user.expanded">edit</i>
-                        <i class="material-icons-outlined" (click)="deleteUser(user, i)">delete</i>
+                        <i class="material-icons-outlined" (click)="users[i].expanded  = true">edit</i>
+                        <i class="material-icons-outlined" (click)="deleteUser(i)">delete</i>
                     </div>
                 </div>
-                <div class="table-details" *ngIf="user.expanded">
+                <div class="table-details" *ngIf="users[i].expanded ">
                     <div class="clearfix table-details__form">
                         <div class="table-details__col">
-                            <esb-text-field placeholder="Login" [value]="user.cn" [disabled]="divue">
+                            <esb-text-field placeholder="Login" formControlName="cn">
                             </esb-text-field>
                         </div>
                         <div class="table-details__col">
-                            <esb-text-field placeholder="ФИО" [value]="user.sn"></esb-text-field>
+                            <esb-text-field placeholder="ФИО" formControlName="sn"></esb-text-field>
                         </div>
                         <div class="table-details__col">
-                            <esb-text-field placeholder="e-mail" [value]="user.email"></esb-text-field>
+                            <esb-text-field placeholder="e-mail" formControlName="email"></esb-text-field>
                         </div>
                         <div class="table-details__col">
-                            <esb-text-field placeholder="Пароль" type="password" [canShowPassword]="divue">
-                            </esb-text-field>
+                            <esb-text-field placeholder="Пароль" formControlName="password" type="password" [canShowPassword]="true"></esb-text-field>
                         </div>
                     </div>
 
@@ -76,7 +75,7 @@
                             </li>
                         </ul>
                         <div class="checks__buttons">
-                            <esb-button class="checks__button" type="button">
+                            <esb-button class="checks__button" type="button" (click)="users[i].expanded = false">
                                 Отменить
                             </esb-button>
                             <esb-button class="checks__button" type="submit" styleType="raised">
@@ -85,7 +84,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
-</div>
+</form>

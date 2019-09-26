@@ -30,7 +30,7 @@ export class TextFieldComponent implements AfterViewInit, ControlValueAccessor {
 
   private val = '';
 
-  private propagateChange: any = () => {};
+  private propagateChange: any = () => { };
 
   constructor(
     private el: ElementRef
@@ -64,10 +64,14 @@ export class TextFieldComponent implements AfterViewInit, ControlValueAccessor {
     this.propagateChange = fn;
   }
 
-  registerOnTouched() {}
+  registerOnTouched() { }
 
   onInput(e) {
     this.value = e.target.value;
+  }
+
+  setDisabledState(isDisabled: boolean) {
+    this.disabled = isDisabled;
   }
 
 }

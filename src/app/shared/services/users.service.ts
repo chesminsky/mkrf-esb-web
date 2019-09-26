@@ -15,11 +15,15 @@ export class UsersService {
       private http: HttpClient
   ) { }
 
-  getUsers(): Observable<Array<User>> {
+  public getUsers(): Observable<Array<User>> {
       return this.http.get<Array<User>>(this.apiUrl + '/esb/adm/users');
   }
 
-  deleteUser(login: string) {
+  public deleteUser(login: string) {
     return this.http.delete(this.apiUrl + '/esb/adm/users/' + login);
+  }
+
+  public changePassword(login: string, newPassword: string) {
+    return this.http.post(this.apiUrl + '/esb/adm/users/' + login + '/actions/change-user-password?newPassword=' + newPassword, {});
   }
 }
