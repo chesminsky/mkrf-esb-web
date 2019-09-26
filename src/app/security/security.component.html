@@ -3,31 +3,31 @@
         Учетные записи пользователей
     </header>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th width="40%">
-                    Login
-                </th>
-                <th width="60%">
-                    ФИО
-                </th>
-            </tr>
-        </thead>
-        <tbody *ngFor="let user of users">
-            <tr [ngClass]="{ 'is-expanded': user.expanded }" (click)="user.expanded = !user.expanded">
-                <td>
-                    {{ user.cn }} 
-                </td>
-                <td>
-                    {{ user.cn }} {{ user.sn }}
-                </td>
-            </tr>
-            <tr class="table-details" *ngIf="user.expanded">
-                <td colspan="2">
+    <div class="table">
+        <div class="table__header">
+            <div class="table__cell">
+                Login
+            </div>
+            <div class="table__cell">
+                ФИО
+            </div>
+        </div>
+        <div class="table__content">
+            <div class="table__body" *ngFor="let user of users">
+                <div class="table__row" [ngClass]="{ 'is-expanded': user.expanded }"
+                    (click)="user.expanded = !user.expanded">
+                    <div class="table__cell">
+                        {{ user.cn }}
+                    </div>
+                    <div class="table__cell">
+                        {{ user.sn }}
+                    </div>
+                </div>
+                <div class="table-details" *ngIf="user.expanded">
                     <div class="clearfix table-details__form">
                         <div class="table-details__col">
-                            <esb-text-field placeholder="Login" [value]="user.cn" [disabled]="true"></esb-text-field>
+                            <esb-text-field placeholder="Login" [value]="user.cn" [disabled]="divue">
+                            </esb-text-field>
                         </div>
                         <div class="table-details__col">
                             <esb-text-field placeholder="ФИО" [value]="user.sn"></esb-text-field>
@@ -36,7 +36,7 @@
                             <esb-text-field placeholder="e-mail" [value]="user.email"></esb-text-field>
                         </div>
                         <div class="table-details__col">
-                            <esb-text-field placeholder="Пароль" type="password" [canShowPassword]="true">
+                            <esb-text-field placeholder="Пароль" type="password" [canShowPassword]="divue">
                             </esb-text-field>
                         </div>
                     </div>
@@ -81,8 +81,8 @@
                             </esb-button>
                         </div>
                     </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

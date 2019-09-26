@@ -2,92 +2,133 @@
 @import "helper";
 
 .security {
-    padding: 35px 32px;
+	padding: 35px 32px;
 
-    &__header {
-        font-size: 20px;
-        margin: 0 0 24px;
-    }
+	&__header {
+		font-size: 20px;
+		margin: 0 0 24px;
+	}
 }
 
 .table {
-    width: 100%;
-    th {
-        font-size: 13px;
-        color: $muted-color;
-        text-align: left;
-        padding: 21px 0;
-    }
-    td {
-        font-size: 16px;
-        padding: 20px 0;
+	width: 100%;
 
-    }
-    tr {
-        border-bottom: 1px solid $border-color;
-        cursor: pointer;
-        &.is-expanded {
-            font-weight: 700;
-            border-bottom: none;
-        }
-    }
+	&__content {
+		overflow-y: auto;
+		position: absolute;
+		top: 132px;
+		left: 32px;
+		right: 0;
+        bottom: 32px;
+        padding-right: 32px;
+
+		&::-webkit-scrollbar {
+			width: 5px;
+		}
+
+		&::-webkit-scrollbar-track {
+			background: $border-color;
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background: $muted-color;
+		}
+	}
+
+	&__header {
+		display: table;
+		table-layout: fixed;
+		width: 100%;
+		.table__cell {
+			font-size: 13px;
+			color: $muted-color;
+			text-align: left;
+			padding: 21px 0;
+		}
+	}
+
+	&__body {
+		.table__cell {
+			font-size: 16px;
+			padding: 20px 0;
+		}
+	}
+
+	&__cell {
+		display: table-cell;
+		&:first-child {
+			width: 40%;
+		}
+		&:last-child {
+			width: 60%;
+		}
+	}
+
+	&__row {
+		display: table;
+		table-layout: fixed;
+		width: 100%;
+		border-bottom: 1px solid $border-color;
+		cursor: pointer;
+		&.is-expanded {
+			font-weight: 700;
+			border-bottom: none;
+		}
+	}
 }
 
 .table-details {
-    td {
-        padding: 8px 0;
-    }
+	padding: 8px 0;
 
-    &__col {
-        float: left;
-        width: 50%;
-        &:nth-child(odd) {
-            padding-right: 8px;
-        }
-        &:nth-child(even) {
-            padding-left: 8px;
-        }
-    }
+	&__col {
+		float: left;
+		width: 50%;
+		&:nth-child(odd) {
+			padding-right: 8px;
+		}
+		&:nth-child(even) {
+			padding-left: 8px;
+		}
+	}
 
-    &__form {
-        margin-bottom: 12px;
-    }
+	&__form {
+		margin-bottom: 12px;
+	}
 }
 
 .checks {
+	&__header {
+		font-size: 16px;
+		margin-bottom: 30px;
+	}
 
-    &__header {
-        font-size: 16px;
-        margin-bottom: 30px;
-    }
+	&__item {
+		padding: 4px 0;
+		border-bottom: 1px solid $border-color;
+		position: relative;
+	}
 
-    &__item {
-        padding: 4px 0;
-        border-bottom: 1px solid $border-color;
-        position: relative;
-    }
+	&__item--parent {
+		padding-left: 26px;
+		&::before {
+			@include triangle(bottom, 5px, 5px, $muted-color);
+			left: 0;
+			top: 22px;
+			position: absolute;
+		}
+		border: none;
 
-    &__item--parent {
-        padding-left: 26px;
-        &::before {
-            @include triangle(bottom, 5px, 5px, $muted-color);
-            left: 0;
-            top: 22px;
-            position: absolute;
-        }
-        border: none;
+		.checks__list {
+			padding-left: 48px;
+		}
+	}
 
-        .checks__list {
-            padding-left: 48px;
-        }
-    }
+	&__buttons {
+		text-align: right;
+		margin: 20px 0;
+	}
 
-    &__buttons {
-        text-align: right;
-        margin: 20px 0;
-    }
-
-    &__button {
-        margin-left: 16px;
-    }
+	&__button {
+		margin-left: 16px;
+	}
 }
