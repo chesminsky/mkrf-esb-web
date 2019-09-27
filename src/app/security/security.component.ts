@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { User } from '../shared/models/user';
 import { MessageService } from '../shared/services/message.service';
 import { forkJoin } from 'rxjs';
-import { UserAccessRights } from '../shared/models/user-access-rights';
+import { UserAccessRights, ModuleAccessRight, SystemAccessRight } from '../shared/models/user-access-rights';
 
 @Component({
   selector: 'esb-security',
@@ -51,11 +51,32 @@ export class SecurityComponent implements OnInit {
   }
 
   public getRowClass(i: number) {
-    return { 'is-expanded': this.userRow[i].expanded  };
+    return { 'is-expanded': this.userRow[i].expanded };
   }
 
   public isRowVisible(i: number) {
     return this.userRow[i].expanded;
+  }
+
+  public onChecked(checked: boolean, item: ModuleAccessRight | SystemAccessRight, serviceInex?: number) {
+
+    const serviceChecked = typeof serviceInex !== 'undefined';
+
+    if (serviceChecked) {
+      item.serviceAccessRights[serviceInex].hasAccess = checked;
+    } else {
+      item.hasAccess = checked;
+    }
+
+    if ((item as SystemAccessRight).systemName) {
+      if (serviceChecked) {
+        item.hasAccess = item.serviceAccessRights.every((s) => s.hasAccess);
+      }
+
+      if (!serviceChecked) {
+        item.serviceAccessRights.forEach((s) => s.hasAccess = checked);
+      }
+    }
   }
 
   public cancel(i: number) {
@@ -100,6 +121,7 @@ export class SecurityComponent implements OnInit {
   }
 
   public expand(i) {
+    this.userRow.forEach((r) => r.expanded = false);
     this.userRow[i].expanded = true;
     const cn = this.usersCtrl.controls[i].get('cn').value;
     this.usersService.getAccessRights(cn).subscribe((resp) => {
@@ -109,7 +131,7 @@ export class SecurityComponent implements OnInit {
 
   private createUserGroup(user: User): FormGroup {
     return this.fb.group({
-      cn: { value: user.cn, disabled: true},
+      cn: { value: user.cn, disabled: true },
       sn: user.sn,
       email: user.email,
       password: ''

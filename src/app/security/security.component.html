@@ -43,7 +43,7 @@
                         </div>
                     </div>
 
-                    <div *ngIf="userAccessRights[i]">
+                    <ng-container *ngIf="userAccessRights[i]">
                         <div class="checks" *ngFor="let checkBlock of checkBlocks">
                             <header class="checks__header">
                                 {{ checkBlock.name }}
@@ -57,17 +57,17 @@
     
                                     <span class="checks__item-toggler" (click)="itemElement.classList.toggle('is-collapsed')"></span>
     
-                                    <esb-checkbox [label]="item[checkBlock.key + 'Name']" [value]="item.hasAccess"></esb-checkbox>
+                                    <esb-checkbox [label]="item[checkBlock.key + 'Name']" [value]="item.hasAccess" (change)="onChecked($event.target.checked, item)"></esb-checkbox>
     
                                     <ul class="checks__list" *ngIf="item.serviceAccessRights && item.serviceAccessRights.length">
-                                        <li class="checks__item" *ngFor="let service of item.serviceAccessRights">
-                                            <esb-checkbox [label]="service.serviceName" [value]="service.hasAccess"></esb-checkbox>
+                                        <li class="checks__item" *ngFor="let service of item.serviceAccessRights; index as i">
+                                            <esb-checkbox [label]="service.serviceName" [value]="service.hasAccess" (change)="onChecked($event.target.checked, item, i)"></esb-checkbox>
                                         </li>
                                     </ul>
                                 </li>
                             </ul>
                         </div>    
-                    </div>
+                    </ng-container>
 
                     <div class="table-details__buttons">
                         <esb-button class="checks__button" type="button" (click)="cancel(i)">

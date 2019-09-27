@@ -1,16 +1,16 @@
-interface SystemAccessRight {
+export interface SystemAccessRight {
     systemName: string;
     hasAccess: boolean;
     serviceAccessRights: AccessRight[];
 }
 
-interface ModuleAccessRight {
+export interface ModuleAccessRight {
     moduleName: string;
     hasAccess: boolean;
     serviceAccessRights: AccessRight[];
 }
 
-interface AccessRight {
+export interface AccessRight {
     serviceName: string;
     hasAccess: boolean;
 }
