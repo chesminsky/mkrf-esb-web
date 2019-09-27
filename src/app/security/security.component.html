@@ -43,45 +43,47 @@
                         </div>
                     </div>
 
-                    <div class="checks">
+                    <div class="checks" *ngIf="userAccessRights[i]">
                         <header class="checks__header">
-                            Методы
+                            Администрирование
                         </header>
 
                         <ul class="checks__list">
-                            <li class="checks__item checks__item--parent">
-                                <esb-checkbox label="esb.kinobilet"></esb-checkbox>
+                            <li class="checks__item checks__item--parent" *ngFor="let module of userAccessRights[i].moduleAccessRights">
+                                <esb-checkbox [label]="module.moduleName" [value]="module.hasAccess"></esb-checkbox>
 
-                                <ul class="checks__list">
-                                    <li class="checks__item">
-                                        <esb-checkbox label="get_tickets"></esb-checkbox>
-                                    </li>
-                                    <li class="checks__item">
-                                        <esb-checkbox label="get_statistics"></esb-checkbox>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="checks__item checks__item--parent">
-                                <esb-checkbox label="Администрирование"></esb-checkbox>
-
-                                <ul class="checks__list">
-                                    <li class="checks__item">
-                                        <esb-checkbox label="Nodered"></esb-checkbox>
-                                    </li>
-                                    <li class="checks__item">
-                                        <esb-checkbox label="Список пользователей"></esb-checkbox>
+                                <ul class="checks__list" *ngIf="module.serviceAccessRights && module.serviceAccessRights.length">
+                                    <li class="checks__item" *ngFor="let service of module.serviceAccessRights">
+                                        <esb-checkbox [label]="service.serviceName" [value]="service.hasAccess"></esb-checkbox>
                                     </li>
                                 </ul>
                             </li>
                         </ul>
-                        <div class="checks__buttons">
-                            <esb-button class="checks__button" type="button" (click)="cancel(i)">
-                                Отменить
-                            </esb-button>
-                            <esb-button class="checks__button" type="submit" styleType="raised">
-                                Сохранить
-                            </esb-button>
-                        </div>
+
+                        <header class="checks__header">
+                            Внешние системы
+                        </header>
+
+                        <ul class="checks__list">
+                            <li class="checks__item checks__item--parent" *ngFor="let system of userAccessRights[i].systemAccessRights">
+                                <esb-checkbox [label]="system.systemName" [value]="system.hasAccess"></esb-checkbox>
+
+                                <ul class="checks__list" *ngIf="system.serviceAccessRights && system.serviceAccessRights.length">
+                                    <li class="checks__item" *ngFor="let service of system.serviceAccessRights">
+                                        <esb-checkbox [label]="service.serviceName" [value]="service.hasAccess"></esb-checkbox>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="table-details__buttons">
+                        <esb-button class="checks__button" type="button" (click)="cancel(i)">
+                            Отменить
+                        </esb-button>
+                        <esb-button class="checks__button" type="submit" styleType="raised">
+                            Сохранить
+                        </esb-button>
                     </div>
                 </div>
             </form>

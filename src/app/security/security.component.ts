@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { User } from '../shared/models/user';
 import { MessageService } from '../shared/services/message.service';
 import { forkJoin } from 'rxjs';
+import { UserAccessRights } from '../shared/models/user-access-rights';
 
 @Component({
   selector: 'esb-security',
@@ -14,6 +15,7 @@ export class SecurityComponent implements OnInit {
 
   public users: Array<User>;
   public form: FormGroup;
+  public userAccessRights: Array<UserAccessRights> = [];
 
   private userRow: Array<{ expanded: boolean }>;
   private usersCtrl: FormArray;
@@ -92,7 +94,9 @@ export class SecurityComponent implements OnInit {
   public expand(i) {
     this.userRow[i].expanded = true;
     const cn = this.usersCtrl.controls[i].get('cn').value;
-    this.usersService.getAccessRights(cn).subscribe(console.log);
+    this.usersService.getAccessRights(cn).subscribe((resp) => {
+      this.userAccessRights[i] = resp;
+    });
   }
 
   private createUserGroup(user: User): FormGroup {

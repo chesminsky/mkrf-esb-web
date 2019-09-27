@@ -4,15 +4,15 @@ interface SystemAccessRight {
     serviceAccessRights: AccessRight[];
 }
 
-interface AccessRight {
-    serviceName: string;
-    hasAccess: boolean;
-}
-
 interface ModuleAccessRight {
     moduleName: string;
     hasAccess: boolean;
     serviceAccessRights: AccessRight[];
+}
+
+interface AccessRight {
+    serviceName: string;
+    hasAccess: boolean;
 }
 
 export interface UserAccessRights {

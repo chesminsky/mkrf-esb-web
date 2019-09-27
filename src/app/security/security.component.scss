@@ -107,12 +107,22 @@
 	&__form {
 		margin-bottom: 12px;
 	}
+
+	&__buttons {
+		text-align: right;
+		margin-bottom: 20px;
+	}
 }
 
 .checks {
+
+	&__list {
+		margin-bottom: 20px;
+	}
+
 	&__header {
 		font-size: 16px;
-		margin-bottom: 30px;
+		margin-bottom: 20px;
 	}
 
 	&__item {
@@ -134,11 +144,6 @@
 		.checks__list {
 			padding-left: 48px;
 		}
-	}
-
-	&__buttons {
-		text-align: right;
-		margin: 20px 0;
 	}
 
 	&__button {
