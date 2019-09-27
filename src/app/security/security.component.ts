@@ -3,10 +3,7 @@ import { UsersService } from '../shared/services/users.service';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { User } from '../shared/models/user';
 import { MessageService } from '../shared/services/message.service';
-
-interface UserRow extends User {
-  expanded?: boolean;
-}
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'esb-security',
@@ -15,8 +12,10 @@ interface UserRow extends User {
 })
 export class SecurityComponent implements OnInit {
 
-  public users: Array<UserRow>;
+  public users: Array<User>;
   public form: FormGroup;
+
+  private userRow: Array<{ expanded: boolean }>;
   private usersCtrl: FormArray;
 
   constructor(
@@ -26,6 +25,7 @@ export class SecurityComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
     this.usersCtrl = this.fb.array([]);
     this.form = this.fb.group({
       users: this.usersCtrl
@@ -33,42 +33,73 @@ export class SecurityComponent implements OnInit {
 
     this.usersService.getUsers().subscribe((users) => {
       this.users = users;
+      this.userRow = this.users.map(() => ({ expanded: false }));
       for (const user of users) {
         this.usersCtrl.push(this.createUserGroup(user));
       }
     });
   }
 
+  public getRowClass(i: number) {
+    return { 'is-expanded': this.userRow[i].expanded  };
+  }
+
+  public isRowVisible(i: number) {
+    return this.userRow[i].expanded;
+  }
+
+  public cancel(i: number) {
+    this.userRow[i].expanded = false;
+  }
+
   public deleteUser(i: number) {
-    const login = this.usersCtrl.controls[i].get('cn').value;
-    this.usersService.deleteUser(login).subscribe(() => {
+    const cn = this.usersCtrl.controls[i].get('cn').value;
+    this.usersService.deleteUser(cn).subscribe(() => {
       this.users.splice(i, 1);
       this.usersCtrl.removeAt(i);
-      this.messageService.text(`Пользователь ${login} удален`);
+      this.messageService.text(`Пользователь ${cn} удален`);
     });
   }
 
   public onSubmit(i: number) {
     const group = this.usersCtrl.controls[i];
-    const login = group.get('cn').value;
-    const password = group.get('password').value;
-    this.usersService.changePassword(login, password).subscribe(() => {
-      this.messageService.text(`Информация о пользователе ${login} обновлена`);
-      this.users[i].expanded = false;
+    const { cn, sn, email, password } = (group as FormGroup).getRawValue();
+
+    const obs$ = [];
+
+    if (password) {
+      obs$.push(
+        this.usersService.changePassword(cn, password)
+      );
+    }
+
+    if (sn !== this.users[i].sn || email !== this.users[i].email) {
+      obs$.push(
+        this.usersService.updateUser({
+          ...this.users[i],
+          sn,
+          email
+        })
+      );
+    }
+
+    forkJoin(obs$).subscribe(() => {
+      this.messageService.text(`Информация о пользователе ${cn} обновлена`);
+      this.userRow[i].expanded = false;
     });
   }
 
   public expand(i) {
-    this.users[i].expanded = true;
-    const login = this.usersCtrl.controls[i].get('cn').value;
-    this.usersService.getAccessRights(login).subscribe(console.log);
+    this.userRow[i].expanded = true;
+    const cn = this.usersCtrl.controls[i].get('cn').value;
+    this.usersService.getAccessRights(cn).subscribe(console.log);
   }
 
   private createUserGroup(user: User): FormGroup {
     return this.fb.group({
-      cn: this.fb.control({ value: user.cn, disabled: true}),
-      email: this.fb.control({ value: user.email, disabled: true}),
-      sn: this.fb.control({ value: user.sn, disabled: true}),
+      cn: { value: user.cn, disabled: true},
+      sn: user.sn,
+      email: user.email,
       password: ''
     });
   }

@@ -17,18 +17,22 @@ export class UsersService {
   ) { }
 
   public getUsers(): Observable<Array<User>> {
-      return this.http.get<Array<User>>(this.apiUrl + '/esb/adm/users');
+      return this.http.get<Array<User>>(`${this.apiUrl}/esb/adm/users`);
   }
 
-  public deleteUser(login: string) {
-    return this.http.delete(this.apiUrl + '/esb/adm/users/' + login);
+  public deleteUser(cn: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/esb/adm/users/${cn}`);
   }
 
-  public changePassword(login: string, newPassword: string) {
-    return this.http.post(this.apiUrl + '/esb/adm/users/' + login + '/actions/change-user-password?newPassword=' + newPassword, {});
+  public updateUser(user: User): Observable<User> {
+    return this.http.put<User>(`${this.apiUrl}/esb/adm/users/${user.cn}`, user);
   }
 
-  public getAccessRights(login: string): Observable<UserAccessRights> {
-    return this.http.post<UserAccessRights>(this.apiUrl + '/esb/adm/users/' + login + '/actions/get-user-access-rights', {});
+  public changePassword(cn: string, newPassword: string): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/esb/adm/users/${cn}/actions/change-user-password?newPassword=${newPassword}`, {});
+  }
+
+  public getAccessRights(cn: string): Observable<UserAccessRights> {
+    return this.http.post<UserAccessRights>(`${this.apiUrl}/esb/adm/users/${cn}/actions/get-user-access-rights`, {});
   }
 }

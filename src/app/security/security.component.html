@@ -14,7 +14,7 @@
         </div>
         <div class="table__content" formArrayName="users">
             <form class="table__body" *ngFor="let user of usersCtrl.controls; index as i " [formGroupName]="i" (submit)="onSubmit(i)">
-                <div class="table__row" [ngClass]="{ 'is-expanded': users[i].expanded  }">
+                <div class="table__row" [ngClass]="getRowClass(i)">
                     <div class="table__cell">
                         {{ user.get('cn').value }}
                     </div>
@@ -26,7 +26,7 @@
                         <i class="material-icons-outlined" (click)="deleteUser(i)">delete</i>
                     </div>
                 </div>
-                <div class="table-details" *ngIf="users[i].expanded ">
+                <div class="table-details" *ngIf="isRowVisible(i)">
                     <div class="clearfix table-details__form">
                         <div class="table-details__col">
                             <esb-text-field placeholder="Login" formControlName="cn">
@@ -75,7 +75,7 @@
                             </li>
                         </ul>
                         <div class="checks__buttons">
-                            <esb-button class="checks__button" type="button" (click)="users[i].expanded = false">
+                            <esb-button class="checks__button" type="button" (click)="cancel(i)">
                                 Отменить
                             </esb-button>
                             <esb-button class="checks__button" type="submit" styleType="raised">
