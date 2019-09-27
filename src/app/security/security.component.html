@@ -43,38 +43,30 @@
                         </div>
                     </div>
 
-                    <div class="checks" *ngIf="userAccessRights[i]">
-                        <header class="checks__header">
-                            Администрирование
-                        </header>
-
-                        <ul class="checks__list">
-                            <li class="checks__item checks__item--parent" *ngFor="let module of userAccessRights[i].moduleAccessRights">
-                                <esb-checkbox [label]="module.moduleName" [value]="module.hasAccess"></esb-checkbox>
-
-                                <ul class="checks__list" *ngIf="module.serviceAccessRights && module.serviceAccessRights.length">
-                                    <li class="checks__item" *ngFor="let service of module.serviceAccessRights">
-                                        <esb-checkbox [label]="service.serviceName" [value]="service.hasAccess"></esb-checkbox>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-
-                        <header class="checks__header">
-                            Внешние системы
-                        </header>
-
-                        <ul class="checks__list">
-                            <li class="checks__item checks__item--parent" *ngFor="let system of userAccessRights[i].systemAccessRights">
-                                <esb-checkbox [label]="system.systemName" [value]="system.hasAccess"></esb-checkbox>
-
-                                <ul class="checks__list" *ngIf="system.serviceAccessRights && system.serviceAccessRights.length">
-                                    <li class="checks__item" *ngFor="let service of system.serviceAccessRights">
-                                        <esb-checkbox [label]="service.serviceName" [value]="service.hasAccess"></esb-checkbox>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
+                    <div *ngIf="userAccessRights[i]">
+                        <div class="checks" *ngFor="let checkBlock of checkBlocks">
+                            <header class="checks__header">
+                                {{ checkBlock.name }}
+                            </header>
+    
+                            <ul class="checks__list">
+                                <li class="checks__item checks__item--parent" 
+                                    *ngFor="let item of userAccessRights[i][checkBlock.key + 'AccessRights']"
+                                    #itemElement
+                                    [ngClass]="{'checks__item--expandable': item.serviceAccessRights && item.serviceAccessRights.length}">
+    
+                                    <span class="checks__item-toggler" (click)="itemElement.classList.toggle('is-collapsed')"></span>
+    
+                                    <esb-checkbox [label]="item[checkBlock.key + 'Name']" [value]="item.hasAccess"></esb-checkbox>
+    
+                                    <ul class="checks__list" *ngIf="item.serviceAccessRights && item.serviceAccessRights.length">
+                                        <li class="checks__item" *ngFor="let service of item.serviceAccessRights">
+                                            <esb-checkbox [label]="service.serviceName" [value]="service.hasAccess"></esb-checkbox>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>    
                     </div>
 
                     <div class="table-details__buttons">

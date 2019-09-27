@@ -17,6 +17,14 @@ export class SecurityComponent implements OnInit {
   public form: FormGroup;
   public userAccessRights: Array<UserAccessRights> = [];
 
+  public checkBlocks = [{
+    name: 'Администрирование',
+    key: 'module'
+  }, {
+    name: 'Внешние системы',
+    key: 'system'
+  }];
+
   private userRow: Array<{ expanded: boolean }>;
   private usersCtrl: FormArray;
 
