@@ -5,6 +5,8 @@ import { TextFieldComponent } from './components/text-field/text-field.component
 import { ButtonComponent } from './components/button/button.component';
 import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
+import { PaginationPipe } from './components/pagination/pagination.pipe';
 
 
 @NgModule({
@@ -12,7 +14,9 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
     TextFieldComponent,
     ButtonComponent,
     CheckboxComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    PaginationComponent,
+    PaginationPipe
   ],
   imports: [
     CommonModule,
@@ -23,7 +27,9 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
     TextFieldComponent,
     ButtonComponent,
     CheckboxComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    PaginationComponent,
+    PaginationPipe
   ],
   entryComponents: [
 

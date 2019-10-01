@@ -1,0 +1,18 @@
+<div *ngIf="dataRef" class="pagination">
+
+    <div class="pagination__per-page">
+        Строк на странице:
+        <span> {{ recordsPerPage }}</span>
+    </div>
+    <div class="pagination__pages">
+        {{ rowStart + 1 }}-{{ rowEnd }} из {{ dataRef.length }}
+    </div>
+    <div class="pagination__controls">
+        <button (click)="prevPage()" [disabled]="prevDisabled">
+            <i class="material-icons">keyboard_arrow_left</i>
+        </button>
+        <button (click)="nextPage()" [disabled]="nextDisabled">
+            <i class="material-icons">keyboard_arrow_right</i>
+        </button>
+    </div>
+</div>

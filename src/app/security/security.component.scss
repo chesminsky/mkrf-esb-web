@@ -2,7 +2,7 @@
 @import "helper";
 
 .security {
-	padding: 35px 32px;
+	padding: 35px;
 
 	&__header {
 		font-size: 20px;
@@ -16,11 +16,11 @@
 	&__content {
 		overflow-y: auto;
 		position: absolute;
-		top: 132px;
-		left: 32px;
+		top: 130px;
+		left: 35px;
 		right: 0;
-        bottom: 32px;
-        padding-right: 32px;
+        bottom: 55px;
+        padding-right: 35px;
 
 		&::-webkit-scrollbar {
 			width: 5px;
@@ -112,6 +112,14 @@
 		text-align: right;
 		margin-bottom: 20px;
 	}
+}
+
+.table-pagination {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 55px;
 }
 
 .checks {

@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="table__content" formArrayName="users">
-            <form class="table__body" *ngFor="let user of usersCtrl.controls; index as i " [formGroupName]="i" (submit)="onSubmit(i)">
+            <form class="table__body" *ngFor="let user of usersCtrl.controls | pagination: paginationRef | async; index as i" [formGroupName]="i" (submit)="onSubmit(i)">
                 <div class="table__row" [ngClass]="getRowClass(i)">
                     <div class="table__cell">
                         {{ user.get('cn').value }}
@@ -80,5 +80,9 @@
                 </div>
             </form>
         </div>
+    </div>
+
+    <div class="table-pagination">
+        <esb-pagination [dataRef]="userRow" #paginationRef></esb-pagination>
     </div>
 </form>
