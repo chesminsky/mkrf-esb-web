@@ -5,6 +5,7 @@ import { User } from '../shared/models/user';
 import { MessageService } from '../shared/services/message.service';
 import { forkJoin } from 'rxjs';
 import { UserAccessRights, ModuleAccessRight, SystemAccessRight } from '../shared/models/user-access-rights';
+import { cloneDeep, isEqual } from 'lodash';
 
 @Component({
   selector: 'esb-security',
@@ -27,6 +28,7 @@ export class SecurityComponent implements OnInit {
 
   private userRow: Array<{ expanded: boolean }>;
   private usersCtrl: FormArray;
+  private expandedAccessRights: UserAccessRights;
 
   constructor(
     private usersService: UsersService,
@@ -114,6 +116,16 @@ export class SecurityComponent implements OnInit {
       );
     }
 
+    if (!isEqual(this.expandedAccessRights, this.userAccessRights[i])) {
+      obs$.push(
+        this.usersService.setAccessRights(cn, this.userAccessRights[i])
+      );
+    }
+
+    if (obs$.length === 0) {
+      return this.userRow[i].expanded = false;
+    }
+
     forkJoin(obs$).subscribe(() => {
       this.messageService.text(`Информация о пользователе ${cn} обновлена`);
       this.userRow[i].expanded = false;
@@ -126,6 +138,7 @@ export class SecurityComponent implements OnInit {
     const cn = this.usersCtrl.controls[i].get('cn').value;
     this.usersService.getAccessRights(cn).subscribe((resp) => {
       this.userAccessRights[i] = resp;
+      this.expandedAccessRights = cloneDeep(resp);
     });
   }
 

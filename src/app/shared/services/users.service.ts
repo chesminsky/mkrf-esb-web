@@ -35,4 +35,8 @@ export class UsersService {
   public getAccessRights(cn: string): Observable<UserAccessRights> {
     return this.http.post<UserAccessRights>(`${this.apiUrl}/esb/adm/users/${cn}/actions/get-user-access-rights`, {});
   }
+
+  public setAccessRights(cn: string, model: UserAccessRights): Observable<UserAccessRights> {
+    return this.http.post<UserAccessRights>(`${this.apiUrl}/esb/adm/users/${cn}/actions/set-user-access-rights`, model);
+  }
 }
