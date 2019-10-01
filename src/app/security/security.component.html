@@ -1,4 +1,4 @@
-<form class="main security" [formGroup]="form">
+<div class="main security">
     <header class="security__header">
         Учетные записи пользователей
     </header>
@@ -12,25 +12,27 @@
                 ФИО
             </div>
         </div>
-        <div class="table__content" formArrayName="users">
-            <form class="table__body" *ngFor="let user of usersCtrl.controls | pagination: paginationRef | async; index as i" [formGroupName]="i" (submit)="onSubmit(i)">
-                <div class="table__row" [ngClass]="getRowClass(i)">
+        <div class="table__content">
+            <div class="table__body" 
+                 *ngFor="let user of users | pagination: paginationRef | async">
+
+                <div class="table__row" [ngClass]="{ 'is-expanded': user.expanded }">
                     <div class="table__cell">
-                        {{ user.get('cn').value }}
+                        {{ user.model.cn }}
                     </div>
                     <div class="table__cell">
-                        {{ user.get('sn').value }}
+                        {{ user.model.sn }}
                     </div>
-                    <div class="table__row-controls" [hidden]="userRow[i].expanded">
-                        <i class="material-icons-outlined" (click)="expand(i)">edit</i>
-                        <i class="material-icons-outlined" (click)="deleteUser(i)">delete</i>
+                    <div class="table__row-controls" [hidden]="user.expanded">
+                        <i class="material-icons-outlined" (click)="expand(user)">edit</i>
+                        <i class="material-icons-outlined" (click)="deleteUser(user)">delete</i>
                     </div>
                 </div>
-                <div class="table-details" *ngIf="isRowVisible(i)">
+
+                <form class="table-details" *ngIf="user.expanded" [formGroup]="form" (submit)="onSubmit(user)">
                     <div class="clearfix table-details__form">
                         <div class="table-details__col">
-                            <esb-text-field placeholder="Login" formControlName="cn">
-                            </esb-text-field>
+                            <esb-text-field placeholder="Login" formControlName="cn"></esb-text-field>
                         </div>
                         <div class="table-details__col">
                             <esb-text-field placeholder="ФИО" formControlName="sn"></esb-text-field>
@@ -43,7 +45,7 @@
                         </div>
                     </div>
 
-                    <ng-container *ngIf="userAccessRights[i]">
+                    <ng-container *ngIf="userAccessRights">
                         <div class="checks" *ngFor="let checkBlock of checkBlocks">
                             <header class="checks__header">
                                 {{ checkBlock.name }}
@@ -51,7 +53,7 @@
     
                             <ul class="checks__list">
                                 <li class="checks__item checks__item--parent" 
-                                    *ngFor="let item of userAccessRights[i][checkBlock.key + 'AccessRights']"
+                                    *ngFor="let item of userAccessRights[checkBlock.key + 'AccessRights']"
                                     #itemElement
                                     [ngClass]="{'checks__item--expandable': item.serviceAccessRights && item.serviceAccessRights.length}">
     
@@ -70,19 +72,19 @@
                     </ng-container>
 
                     <div class="table-details__buttons">
-                        <esb-button class="checks__button" type="button" (click)="cancel(i)">
+                        <esb-button class="checks__button" type="button" (click)="cancel(user)">
                             Отменить
                         </esb-button>
                         <esb-button class="checks__button" type="submit" styleType="raised">
                             Сохранить
                         </esb-button>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 
     <div class="table-pagination">
-        <esb-pagination [dataRef]="userRow" #paginationRef></esb-pagination>
+        <esb-pagination [dataRef]="users" #paginationRef></esb-pagination>
     </div>
-</form>
+</div>

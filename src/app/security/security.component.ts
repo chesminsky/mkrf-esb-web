@@ -7,6 +7,11 @@ import { forkJoin } from 'rxjs';
 import { UserAccessRights, ModuleAccessRight, SystemAccessRight } from '../shared/models/user-access-rights';
 import { cloneDeep, isEqual } from 'lodash';
 
+interface UserRow {
+  expanded?: boolean;
+  model: User;
+}
+
 @Component({
   selector: 'esb-security',
   templateUrl: './security.component.html',
@@ -14,9 +19,8 @@ import { cloneDeep, isEqual } from 'lodash';
 })
 export class SecurityComponent implements OnInit {
 
-  public users: Array<User>;
+  public users: Array<UserRow>;
   public form: FormGroup;
-  public userAccessRights: Array<UserAccessRights> = [];
 
   public checkBlocks = [{
     name: 'Администрирование',
@@ -25,10 +29,8 @@ export class SecurityComponent implements OnInit {
     name: 'Внешние системы',
     key: 'system'
   }];
-
-  private userRow: Array<{ expanded: boolean }>;
-  private usersCtrl: FormArray;
-  private expandedAccessRights: UserAccessRights;
+  public userAccessRights: UserAccessRights;
+  private userAccessRightsClone: UserAccessRights;
 
   constructor(
     private usersService: UsersService,
@@ -38,28 +40,14 @@ export class SecurityComponent implements OnInit {
 
   ngOnInit() {
 
-    this.usersCtrl = this.fb.array([]);
-    this.form = this.fb.group({
-      users: this.usersCtrl
-    });
-
     this.usersService.getUsers().subscribe((users) => {
-      this.users = users;
-      this.userRow = this.users.map(() => ({ expanded: false }));
-      for (const user of users) {
-        this.usersCtrl.push(this.createUserGroup(user));
-      }
+      this.users = users.map((user) => ({ model: user, expanded: false }));
     });
   }
 
-  public getRowClass(i: number) {
-    return { 'is-expanded': this.userRow[i].expanded };
-  }
-
-  public isRowVisible(i: number) {
-    return this.userRow[i].expanded;
-  }
-
+  /**
+   * Update модели прав доступа по клику на чекбоксы
+   */
   public onChecked(checked: boolean, item: ModuleAccessRight | SystemAccessRight, serviceInex?: number) {
 
     const serviceChecked = typeof serviceInex !== 'undefined';
@@ -81,22 +69,30 @@ export class SecurityComponent implements OnInit {
     }
   }
 
-  public cancel(i: number) {
-    this.userRow[i].expanded = false;
+  /**
+   * Скрытие формы
+   */
+  public cancel(user: UserRow) {
+    user.expanded = false;
   }
 
-  public deleteUser(i: number) {
-    const cn = this.usersCtrl.controls[i].get('cn').value;
+  /**
+   * Удаление пользователя
+   */
+  public deleteUser(user: UserRow) {
+    const cn = user.model.cn;
     this.usersService.deleteUser(cn).subscribe(() => {
-      this.users.splice(i, 1);
-      this.usersCtrl.removeAt(i);
+      this.users = this.users.filter((u) => u.model.cn !== cn);
       this.messageService.text(`Пользователь ${cn} удален`);
     });
   }
 
-  public onSubmit(i: number) {
-    const group = this.usersCtrl.controls[i];
-    const { cn, sn, email, password } = (group as FormGroup).getRawValue();
+  /**
+   * Отправка формы
+   */
+  public onSubmit(user: UserRow) {
+
+    const { cn, sn, email, password } = this.form.getRawValue();
 
     const obs$ = [];
 
@@ -106,47 +102,53 @@ export class SecurityComponent implements OnInit {
       );
     }
 
-    if (sn !== this.users[i].sn || email !== this.users[i].email) {
+    if (sn !== user.model.sn || email !== user.model.email) {
+      user.model = { ...user.model, sn, email };
       obs$.push(
-        this.usersService.updateUser({
-          ...this.users[i],
-          sn,
-          email
-        })
+        this.usersService.updateUser(user.model)
       );
     }
 
-    if (!isEqual(this.expandedAccessRights, this.userAccessRights[i])) {
+    if (!isEqual(this.userAccessRights, this.userAccessRightsClone)) {
       obs$.push(
-        this.usersService.setAccessRights(cn, this.userAccessRights[i])
+        this.usersService.setAccessRights(cn, this.userAccessRights)
       );
     }
 
     if (obs$.length === 0) {
-      return this.userRow[i].expanded = false;
+      return user.expanded = false;
     }
 
     forkJoin(obs$).subscribe(() => {
       this.messageService.text(`Информация о пользователе ${cn} обновлена`);
-      this.userRow[i].expanded = false;
+      user.expanded = false;
     });
   }
 
-  public expand(i) {
-    this.userRow.forEach((r) => r.expanded = false);
-    this.userRow[i].expanded = true;
-    const cn = this.usersCtrl.controls[i].get('cn').value;
-    this.usersService.getAccessRights(cn).subscribe((resp) => {
-      this.userAccessRights[i] = resp;
-      this.expandedAccessRights = cloneDeep(resp);
+
+  /**
+   * Раскрытие формы и подгрузка данных
+   */
+  public expand(user: UserRow) {
+    this.users.forEach((r) => r.expanded = false);
+    user.expanded = true;
+
+    this.form = this.createUserGroup(user.model);
+    this.userAccessRights = null;
+    this.usersService.getAccessRights(user.model.cn).subscribe((resp) => {
+      this.userAccessRights = resp;
+      this.userAccessRightsClone = cloneDeep(resp);
     });
   }
 
-  private createUserGroup(user: User): FormGroup {
+  /**
+   * Создание формы по модели
+   */
+  private createUserGroup(userModel: User): FormGroup {
     return this.fb.group({
-      cn: { value: user.cn, disabled: true },
-      sn: user.sn,
-      email: user.email,
+      cn: { value: userModel.cn, disabled: true },
+      sn: userModel.sn,
+      email: userModel.email,
       password: ''
     });
   }
