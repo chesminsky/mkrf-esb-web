@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UsersService } from '../shared/services/users.service';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { User } from '../shared/models/user';
 import { MessageService } from '../shared/services/message.service';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subscription } from 'rxjs';
 import { UserAccessRights, ModuleAccessRight, SystemAccessRight } from '../shared/models/user-access-rights';
 import { cloneDeep, isEqual } from 'lodash';
+import { GlobalFilterService } from '../shared/services/global-filter..service';
 
 interface UserRow {
   expanded?: boolean;
@@ -17,11 +18,11 @@ interface UserRow {
   templateUrl: './security.component.html',
   styleUrls: ['./security.component.scss']
 })
-export class SecurityComponent implements OnInit {
+export class SecurityComponent implements OnInit, OnDestroy {
 
   public users: Array<UserRow>;
   public form: FormGroup;
-
+  public searchTerm: string;
   public checkBlocks = [{
     name: 'Администрирование',
     key: 'module'
@@ -31,18 +32,38 @@ export class SecurityComponent implements OnInit {
   }];
   public userAccessRights: UserAccessRights;
   private userAccessRightsClone: UserAccessRights;
+  private searchSub: Subscription;
 
   constructor(
     private usersService: UsersService,
     private fb: FormBuilder,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private globalFilter: GlobalFilterService
   ) { }
 
   ngOnInit() {
 
+    let userRows;
+
     this.usersService.getUsers().subscribe((users) => {
-      this.users = users.map((user) => ({ model: user, expanded: false }));
+      userRows = users.map((user) => ({ model: user, expanded: false }));
+      this.users = [].concat(userRows);
     });
+
+    this.searchSub = this.globalFilter.source$.subscribe((term) => {
+      if (term) {
+        this.users = userRows.filter((user) => {
+          const userModel = user.model;
+          return userModel.cn.includes(term) || userModel.sn.includes(term);
+        });
+      } else {
+        this.users = [].concat(userRows);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.searchSub.unsubscribe();
   }
 
   /**

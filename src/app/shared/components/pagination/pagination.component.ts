@@ -17,7 +17,7 @@ export class PaginationComponent implements OnChanges {
   public rowStart: number;
   public rowEnd: number;
 
-  private currentPage = 1;
+  private currentPage;
 
   constructor() { }
 
@@ -30,6 +30,7 @@ export class PaginationComponent implements OnChanges {
   }
 
   public ngOnChanges() {
+    this.currentPage = 1;
     if (this.dataRef) {
       setTimeout(() => {
         this.paginate();

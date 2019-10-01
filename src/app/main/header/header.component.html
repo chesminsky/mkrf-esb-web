@@ -1,9 +1,9 @@
 <header class="header">
     <div class="logo header__logo"></div>
-    <div class="header__search mdc-text-field">
-        <input type="text" placeholder="Поиск" class="mdc-text-field__input">
+    <form class="header__search mdc-text-field" [formGroup]="form">
+        <input type="text" placeholder="Поиск" class="mdc-text-field__input" formControlName="search">
         <i class="material-icons header__search-icon">search</i>
-    </div>
+    </form>
 
     <div class="header__user">
         <i class="material-icons-outlined">

@@ -12,6 +12,9 @@
                 ФИО
             </div>
         </div>
+        <div class="table__body" *ngIf="users && users.length === 0">
+            Ничего не найдено
+        </div>
         <div class="table__content">
             <div class="table__body" 
                  *ngFor="let user of users | pagination: paginationRef | async">
