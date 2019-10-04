@@ -7,6 +7,7 @@ import { CheckboxComponent } from './components/checkbox/checkbox.component';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { PaginationPipe } from './components/pagination/pagination.pipe';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { PaginationPipe } from './components/pagination/pagination.pipe';
     CheckboxComponent,
     SnackbarComponent,
     PaginationComponent,
-    PaginationPipe
+    PaginationPipe,
+    DialogComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { PaginationPipe } from './components/pagination/pagination.pipe';
     CheckboxComponent,
     SnackbarComponent,
     PaginationComponent,
-    PaginationPipe
+    PaginationPipe,
+    DialogComponent
   ],
   entryComponents: [
 

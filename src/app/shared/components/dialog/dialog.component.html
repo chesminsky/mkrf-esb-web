@@ -1,0 +1,21 @@
+<div class="mdc-dialog"
+     role="alertdialog"
+     aria-modal="true">
+  <div class="mdc-dialog__container">
+    <div class="mdc-dialog__surface">
+      <h2 class="mdc-dialog__title">{{ title }}</h2>
+      <div class="mdc-dialog__content">
+        <ng-content></ng-content>
+      </div>
+      <footer class="mdc-dialog__actions">
+        <esb-button class="mdc-dialog__button" data-mdc-dialog-action="cancel" data-mdc-dialog-button-default>
+            {{ cancelButtonText }}
+        </esb-button>
+        <esb-button class="mdc-dialog__button" data-mdc-dialog-action="confirm" styleType="raised">
+            {{ confirmButtonText }}
+        </esb-button>
+      </footer>
+    </div>
+  </div>
+  <div class="mdc-dialog__scrim"></div>
+</div>

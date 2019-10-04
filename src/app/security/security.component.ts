@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { UsersService } from '../shared/services/users.service';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { User } from '../shared/models/user';
@@ -7,6 +7,7 @@ import { forkJoin, Subscription } from 'rxjs';
 import { UserAccessRights, ModuleAccessRight, SystemAccessRight } from '../shared/models/user-access-rights';
 import { cloneDeep, isEqual } from 'lodash';
 import { GlobalFilterService } from '../shared/services/global-filter..service';
+import { DialogComponent } from '../shared/components/dialog/dialog.component';
 
 interface UserRow {
   expanded?: boolean;
@@ -33,6 +34,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
   public userAccessRights: UserAccessRights;
   private userAccessRightsClone: UserAccessRights;
   private searchSub: Subscription;
+
+  @ViewChild(DialogComponent, { static: true })
+  private dialogRef: DialogComponent;
 
   constructor(
     private usersService: UsersService,
@@ -102,9 +106,15 @@ export class SecurityComponent implements OnInit, OnDestroy {
    */
   public deleteUser(user: UserRow) {
     const cn = user.model.cn;
-    this.usersService.deleteUser(cn).subscribe(() => {
-      this.users = this.users.filter((u) => u.model.cn !== cn);
-      this.messageService.text(`Пользователь ${cn} удален`);
+    this.dialogRef.open({
+      title: `Вы действительно хотите удалить пользователя ${cn}?`
+    }).subscribe((confirmed) => {
+      if (confirmed) {
+        this.usersService.deleteUser(cn).subscribe(() => {
+          this.users = this.users.filter((u) => u.model.cn !== cn);
+          this.messageService.text(`Пользователь ${cn} удален`);
+        });
+      }
     });
   }
 
