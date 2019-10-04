@@ -1,19 +1,12 @@
 import { Component, OnInit, ElementRef, Input, forwardRef, AfterViewInit } from '@angular/core';
 import { MDCTextField } from '@material/textfield';
 import { MDCTextFieldIcon } from '@material/textfield/icon';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 
 @Component({
   selector: 'esb-text-field',
   templateUrl: './text-field.component.html',
-  styleUrls: ['./text-field.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      multi: true,
-      useExisting: forwardRef(() => TextFieldComponent),
-    }
-  ]
+  styleUrls: ['./text-field.component.scss']
 })
 export class TextFieldComponent implements AfterViewInit, ControlValueAccessor {
 
@@ -29,12 +22,15 @@ export class TextFieldComponent implements AfterViewInit, ControlValueAccessor {
   public canShowPassword = false;
 
   private val = '';
-
+  private field: MDCTextField;
   private propagateChange: any = () => { };
 
   constructor(
-    private el: ElementRef
-  ) { }
+    private el: ElementRef,
+    public ngControl: NgControl
+  ) {
+    ngControl.valueAccessor = this;
+  }
 
   get value() {
     return this.val;
@@ -47,11 +43,16 @@ export class TextFieldComponent implements AfterViewInit, ControlValueAccessor {
   }
 
   ngAfterViewInit() {
-    const field = new MDCTextField(this.el.nativeElement.querySelector('.mdc-text-field'));
+    this.field = new MDCTextField(this.el.nativeElement.querySelector('.mdc-text-field'));
     const iconEl = this.el.nativeElement.querySelector('.mdc-text-field-icon');
     if (iconEl) {
       const icon = new MDCTextFieldIcon(iconEl);
     }
+
+    this.ngControl.statusChanges.subscribe((status) => {
+      console.log(status);
+      this.field.valid = status !== 'INVALID';
+    });
   }
 
   writeValue(val) {

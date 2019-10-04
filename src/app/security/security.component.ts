@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { UsersService } from '../shared/services/users.service';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { User } from '../shared/models/user';
 import { MessageService } from '../shared/services/message.service';
 import { forkJoin, Subscription, of } from 'rxjs';
@@ -113,6 +113,9 @@ export class SecurityComponent implements OnInit, OnDestroy {
    * Создание пользователя
    */
   public createUser() {
+    if (this.form.invalid) {
+      return;
+    }
     const userModel = this.form.getRawValue();
     this.usersService.createUser(userModel).subscribe((user) => {
       this.messageService.text(`Создан новый пользователь ${userModel.cn}`);
@@ -211,7 +214,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
    */
   private createUserGroup(userModel: User, isNew = false): FormGroup {
     return this.fb.group({
-      cn: { value: userModel.cn, disabled: !isNew },
+      cn: [{ value: userModel.cn, disabled: !isNew }, Validators.required],
       sn: userModel.sn,
       email: userModel.email,
       password: ''
