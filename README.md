@@ -14,4 +14,3 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 - collapse menu
 - new users
 - user form validation
-- scroll user card to top

@@ -3,11 +3,12 @@ import { UsersService } from '../shared/services/users.service';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { User } from '../shared/models/user';
 import { MessageService } from '../shared/services/message.service';
-import { forkJoin, Subscription } from 'rxjs';
+import { forkJoin, Subscription, of } from 'rxjs';
 import { UserAccessRights, ModuleAccessRight, SystemAccessRight } from '../shared/models/user-access-rights';
 import { cloneDeep, isEqual } from 'lodash';
 import { GlobalFilterService } from '../shared/services/global-filter..service';
 import { DialogComponent } from '../shared/components/dialog/dialog.component';
+import { catchError } from 'rxjs/operators';
 
 interface UserRow {
   expanded?: boolean;
@@ -156,19 +157,22 @@ export class SecurityComponent implements OnInit, OnDestroy {
     });
   }
 
-
   /**
    * Раскрытие формы и подгрузка данных
    */
-  public expand(user: UserRow) {
+  public expand(user: UserRow, rowElement: Element) {
     this.users.forEach((r) => r.expanded = false);
-    user.expanded = true;
-
     this.form = this.createUserGroup(user.model);
     this.userAccessRights = null;
-    this.usersService.getAccessRights(user.model.cn).subscribe((resp) => {
+    this.usersService.getAccessRights(user.model.cn).pipe(
+      catchError(() => {
+        return of(null);
+      })
+    ).subscribe((resp) => {
       this.userAccessRights = resp;
       this.userAccessRightsClone = cloneDeep(resp);
+      user.expanded = true;
+      setTimeout(() => rowElement.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     });
   }
 

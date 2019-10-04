@@ -19,7 +19,7 @@
             <div class="table__body" 
                  *ngFor="let user of users | pagination: paginationRef | async">
 
-                <div class="table__row" [ngClass]="{ 'is-expanded': user.expanded }">
+                <div class="table__row" [ngClass]="{ 'is-expanded': user.expanded }" #row>
                     <div class="table__cell">
                         {{ user.model.cn }}
                     </div>
@@ -27,7 +27,7 @@
                         {{ user.model.sn }}
                     </div>
                     <div class="table__row-controls" [hidden]="user.expanded">
-                        <i class="material-icons-outlined" (click)="expand(user)">edit</i>
+                        <i class="material-icons-outlined" (click)="expand(user, row)">edit</i>
                         <i class="material-icons-outlined" (click)="deleteUser(user)">delete</i>
                     </div>
                 </div>
