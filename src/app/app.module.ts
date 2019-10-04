@@ -14,6 +14,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './shared/services/token.interceptor';
 import { NoderedComponent } from './nodered/nodered.component';
 import { SecurityComponent } from './security/security.component';
+import { PendingInterceptor } from './shared/services/pending.interceptor';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,11 @@ import { SecurityComponent } from './security/security.component';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: PendingInterceptor,
       multi: true
     }
   ],

@@ -8,6 +8,7 @@ import { SnackbarComponent } from './components/snackbar/snackbar.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { PaginationPipe } from './components/pagination/pagination.pipe';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
     SnackbarComponent,
     PaginationComponent,
     PaginationPipe,
-    DialogComponent
+    DialogComponent,
+    SpinnerComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { DialogComponent } from './components/dialog/dialog.component';
     SnackbarComponent,
     PaginationComponent,
     PaginationPipe,
-    DialogComponent
+    DialogComponent,
+    SpinnerComponent
   ],
   entryComponents: [
 
