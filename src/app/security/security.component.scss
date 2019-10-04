@@ -7,6 +7,14 @@
 	&__header {
 		font-size: 20px;
 		margin: 0 0 24px;
+		position: relative;
+	}
+
+	&__add {
+		position: absolute;
+		right: 0;
+		top: 0;
+		cursor: pointer;
 	}
 }
 

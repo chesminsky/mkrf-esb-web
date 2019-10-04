@@ -12,5 +12,5 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## TODO
 - collapse menu
-- new users
 - user form validation
+- logout

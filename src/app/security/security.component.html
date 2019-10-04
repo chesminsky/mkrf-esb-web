@@ -1,6 +1,11 @@
 <div class="main security">
     <header class="security__header">
         Учетные записи пользователей
+        <div class="security__add">
+            <i class="material-icons" (click)="addUser()">
+                add_circle_outline
+            </i>
+        </div>
     </header>
 
     <div class="table">
@@ -12,10 +17,28 @@
                 ФИО
             </div>
         </div>
-        <div class="table__body" *ngIf="users && users.length === 0">
-            Ничего не найдено
-        </div>
+
         <div class="table__content">
+
+            <div class="table__body" *ngIf="users && users.length === 0">
+                Ничего не найдено
+            </div>
+
+            <div class="table__body" *ngIf="addMode">
+                <form class="table-details" (submit)="createUser()">
+                    <ng-container *ngTemplateOutlet="userForm"></ng-container>
+
+                    <div class="table-details__buttons">
+                        <esb-button class="checks__button" type="button" (click)="collapseAll()">
+                            Отменить
+                        </esb-button>
+                        <esb-button class="checks__button" type="submit" styleType="raised">
+                            Сохранить
+                        </esb-button>
+                    </div>
+                </form>
+            </div>
+
             <div class="table__body" 
                  *ngFor="let user of users | pagination: paginationRef | async">
 
@@ -32,21 +55,9 @@
                     </div>
                 </div>
 
-                <form class="table-details" *ngIf="user.expanded" [formGroup]="form" (submit)="onSubmit(user)">
-                    <div class="clearfix table-details__form">
-                        <div class="table-details__col">
-                            <esb-text-field placeholder="Login" formControlName="cn"></esb-text-field>
-                        </div>
-                        <div class="table-details__col">
-                            <esb-text-field placeholder="ФИО" formControlName="sn"></esb-text-field>
-                        </div>
-                        <div class="table-details__col">
-                            <esb-text-field placeholder="e-mail" formControlName="email"></esb-text-field>
-                        </div>
-                        <div class="table-details__col">
-                            <esb-text-field placeholder="Пароль" formControlName="password" type="password" [canShowPassword]="true"></esb-text-field>
-                        </div>
-                    </div>
+                <form class="table-details" *ngIf="user.expanded" (submit)="updateUser(user)">
+
+                    <ng-container *ngTemplateOutlet="userForm"></ng-container>
 
                     <ng-container *ngIf="userAccessRights">
                         <div class="checks" *ngFor="let checkBlock of checkBlocks">
@@ -75,7 +86,7 @@
                     </ng-container>
 
                     <div class="table-details__buttons">
-                        <esb-button class="checks__button" type="button" (click)="cancel(user)">
+                        <esb-button class="checks__button" type="button" (click)="collapseAll()">
                             Отменить
                         </esb-button>
                         <esb-button class="checks__button" type="submit" styleType="raised">
@@ -93,3 +104,21 @@
 </div>
 
 <esb-dialog #dialogRef></esb-dialog>
+
+<!-- shared -->
+<ng-template #userForm>
+    <form class="clearfix table-details__form" [formGroup]="form">
+        <div class="table-details__col">
+            <esb-text-field placeholder="Login" formControlName="cn"></esb-text-field>
+        </div>
+        <div class="table-details__col">
+            <esb-text-field placeholder="ФИО" formControlName="sn"></esb-text-field>
+        </div>
+        <div class="table-details__col">
+            <esb-text-field placeholder="e-mail" formControlName="email"></esb-text-field>
+        </div>
+        <div class="table-details__col">
+            <esb-text-field placeholder="Пароль" formControlName="password" type="password" [canShowPassword]="true"></esb-text-field>
+        </div>
+    </form>
+</ng-template>

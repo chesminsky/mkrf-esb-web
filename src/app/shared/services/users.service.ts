@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { User } from '../models/user';
+import { User, NewUser } from '../models/user';
 import { Observable } from 'rxjs';
 import { UserAccessRights } from '../models/user-access-rights';
 
@@ -18,6 +18,10 @@ export class UsersService {
 
   public getUsers(): Observable<Array<User>> {
       return this.http.get<Array<User>>(`${this.apiUrl}/esb/adm/users`);
+  }
+
+  public createUser(user: NewUser): Observable<User> {
+    return this.http.post<User>(`${this.apiUrl}/esb/adm/users`, user);
   }
 
   public deleteUser(cn: string): Observable<void> {

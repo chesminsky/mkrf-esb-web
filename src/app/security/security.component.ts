@@ -25,6 +25,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   public users: Array<UserRow>;
   public form: FormGroup;
   public searchTerm: string;
+  public addMode: boolean;
   public checkBlocks = [{
     name: 'Администрирование',
     key: 'module'
@@ -46,7 +47,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     private globalFilter: GlobalFilterService
   ) { }
 
-  ngOnInit() {
+  public ngOnInit() {
 
     let userRows;
 
@@ -67,7 +68,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.searchSub.unsubscribe();
   }
 
@@ -96,10 +97,31 @@ export class SecurityComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Скрытие формы
+   * Добавление формы создания пользователя
    */
-  public cancel(user: UserRow) {
-    user.expanded = false;
+  public addUser() {
+    this.collapseAll();
+    this.addMode = true;
+    this.form = this.createUserGroup({
+      cn: '',
+      sn: '',
+      email: ''
+    }, true);
+  }
+
+  /**
+   * Создание пользователя
+   */
+  public createUser() {
+    const userModel = this.form.getRawValue();
+    this.usersService.createUser(userModel).subscribe((user) => {
+      this.messageService.text(`Создан новый пользователь ${userModel.cn}`);
+      this.addMode = false;
+
+      setTimeout(() => {
+        this.users = [{ model: user }].concat(this.users).sort((a, b) => a.model.cn.localeCompare(b.model.cn));
+      });
+    });
   }
 
   /**
@@ -122,7 +144,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
   /**
    * Отправка формы
    */
-  public onSubmit(user: UserRow) {
+  public updateUser(user: UserRow) {
 
     const { cn, sn, email, password } = this.form.getRawValue();
 
@@ -161,7 +183,7 @@ export class SecurityComponent implements OnInit, OnDestroy {
    * Раскрытие формы и подгрузка данных
    */
   public expand(user: UserRow, rowElement: Element) {
-    this.users.forEach((r) => r.expanded = false);
+    this.collapseAll();
     this.form = this.createUserGroup(user.model);
     this.userAccessRights = null;
     this.usersService.getAccessRights(user.model.cn).pipe(
@@ -177,11 +199,19 @@ export class SecurityComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Скрыть все формы
+   */
+  public collapseAll() {
+    this.addMode = false;
+    this.users.forEach((r) => r.expanded = false);
+  }
+
+  /**
    * Создание формы по модели
    */
-  private createUserGroup(userModel: User): FormGroup {
+  private createUserGroup(userModel: User, isNew = false): FormGroup {
     return this.fb.group({
-      cn: { value: userModel.cn, disabled: true },
+      cn: { value: userModel.cn, disabled: !isNew },
       sn: userModel.sn,
       email: userModel.email,
       password: ''

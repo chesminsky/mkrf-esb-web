@@ -1,6 +1,9 @@
 export interface User {
-    cn: string; // Имя
-    sn: string; // Фамилия
-    email: string; // Почта
-    additionalProperties: any;
+    cn: string;
+    sn: string;
+    email: string;
+}
+
+export interface NewUser extends User {
+    password: string;
 }
